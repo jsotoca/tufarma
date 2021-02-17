@@ -40,4 +40,14 @@ public class LaboratorioRepositorio {
             System.out.println(e);
         }
     }
+    
+    public static void actualizarLaboratorio(Laboratorio lab){
+        
+        try {
+            List<Object> values = Arrays.asList(lab.getNombre(),lab.isVigente(),lab.getCodigo());
+            MySQL.executeUpdate("UPDATE laboratorio set nombre = ?, vigencia = ? WHERE id_laboratorio = ?", values);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 }

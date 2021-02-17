@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 public class frmPrincipal extends javax.swing.JFrame {
     
     boolean accion;
+    Laboratorio lab = null;
     DefaultTableModel modelLaboratorios = new DefaultTableModel(){
         @Override
         public Class<?> getColumnClass(int columnIndex) {
@@ -142,6 +143,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
 
         btnCancelarLab.setText("Cancelar");
+        btnCancelarLab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarLabActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panDataLabLayout = new javax.swing.GroupLayout(panDataLab);
         panDataLab.setLayout(panDataLabLayout);
@@ -209,6 +215,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
 
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -237,6 +248,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         );
 
         jButton3.setText("Salir");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelLaboratoriosLayout = new javax.swing.GroupLayout(panelLaboratorios);
         panelLaboratorios.setLayout(panelLaboratoriosLayout);
@@ -413,35 +429,56 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void seleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seleccionarColumna
         
-        
         int codigo = (int) tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 0);
         String nombre = tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 1).toString();
         boolean vigencia = (boolean) tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 2);
         
-        Laboratorio lab = new Laboratorio(codigo, nombre, vigencia);
-        System.out.println(lab.getCodigo());
-        System.out.println(lab.getNombre());
-        System.out.println(lab.isVigente());
+        this.lab = new Laboratorio(codigo, nombre, vigencia);
+        
     }//GEN-LAST:event_seleccionarColumna
 
     private void btnNuevoLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoLabActionPerformed
         this.accion = true;
+        this.limpiarPanLab();
         this.setPanelEnabled(panDataLab,true);
     }//GEN-LAST:event_btnNuevoLabActionPerformed
 
     private void btnAceptarLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarLabActionPerformed
+        
+        String nombre = this.txtNombreLab.getText();
+        boolean vigencia = (boolean) cbVigenciaLab.isSelected();
+        Laboratorio labo = new Laboratorio(nombre,vigencia);
+        
         if(this.accion){
-            String nombre = this.txtNombreLab.getText();
-            boolean vigencia = (boolean) cbVigenciaLab.isSelected();
-            Laboratorio lab = new Laboratorio(nombre,vigencia);
-            LaboratorioServicio.crearLaboratorio(lab);
-            this.cargarDataTablaLaboratorios();
-            this.limpiarPanLab();
-            this.setPanelEnabled(panDataLab,false);
-        }else{
-            
+            LaboratorioServicio.crearLaboratorio(labo);
+        }    
+        else{
+            labo.setCodigo(this.lab.getCodigo());
+            LaboratorioServicio.actualizarLaboratorio(labo);
         }
+            
+        this.cargarDataTablaLaboratorios();
+        this.limpiarPanLab();
+        this.setPanelEnabled(panDataLab,false);
+        
     }//GEN-LAST:event_btnAceptarLabActionPerformed
+
+    private void btnCancelarLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarLabActionPerformed
+        this.limpiarPanLab();
+        this.setPanelEnabled(panDataLab,false);
+    }//GEN-LAST:event_btnCancelarLabActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        this.accion = false;
+        this.limpiarPanLab();
+        txtNombreLab.setText(this.lab.getNombre());
+        cbVigenciaLab.setSelected(this.lab.isVigente());
+        this.setPanelEnabled(panDataLab,true);
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     private void limpiarPanLab(){

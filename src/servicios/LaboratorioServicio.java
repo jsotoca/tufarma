@@ -24,5 +24,13 @@ public class LaboratorioServicio {
            throw e;
        }
     }
+    
+    public static void actualizarLaboratorio(Laboratorio lab){
+       try {
+           LaboratorioRepositorio.actualizarLaboratorio(lab);
+       } catch (Exception e) {
+           throw e;
+       }
+    }
    
 }
