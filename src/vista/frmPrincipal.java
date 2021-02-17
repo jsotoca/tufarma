@@ -57,13 +57,10 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
     }
     
-    public void cargarTablaLaboratorios(){
+    private void cargarDataTablaLaboratorios(){
+        List <Laboratorio> laboratorios = LaboratorioServicio.listarLaboratorios();
         
-        modelLaboratorios.addColumn("id");        
-        modelLaboratorios.addColumn("nombre");
-        modelLaboratorios.addColumn("vigencia");
-
-        List <Laboratorio> laboratorios = LaboratorioServicio.getLaboratorios();
+        modelLaboratorios.setRowCount(0);
         
         for (Laboratorio laboratorio : laboratorios) {
             
@@ -75,9 +72,17 @@ public class frmPrincipal extends javax.swing.JFrame {
 
             modelLaboratorios.addRow(data);
         }
+    }
+    
+    public void cargarTablaLaboratorios(){
+        
+        modelLaboratorios.addColumn("id");        
+        modelLaboratorios.addColumn("nombre");
+        modelLaboratorios.addColumn("vigencia");
+
+        this.cargarDataTablaLaboratorios();
         
         this.tbLaboratorios.setModel(modelLaboratorios);
-        //this.tbLaboratorios.setEnabled(false);
         
     }
 
@@ -430,12 +435,19 @@ public class frmPrincipal extends javax.swing.JFrame {
             boolean vigencia = (boolean) cbVigenciaLab.isSelected();
             Laboratorio lab = new Laboratorio(nombre,vigencia);
             LaboratorioServicio.crearLaboratorio(lab);
+            this.cargarDataTablaLaboratorios();
+            this.limpiarPanLab();
+            this.setPanelEnabled(panDataLab,false);
         }else{
             
         }
-
     }//GEN-LAST:event_btnAceptarLabActionPerformed
 
+
+    private void limpiarPanLab(){
+        txtNombreLab.setText("");
+        cbVigenciaLab.setSelected(false);
+    }
     
     /**
      * @param args the command line arguments

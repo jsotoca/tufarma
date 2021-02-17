@@ -14,7 +14,7 @@ import java.util.Arrays;
  */
 public class LaboratorioRepositorio {
     
-    public static List<Laboratorio> getLaboratorios(){
+    public static List<Laboratorio> listarLaboratorios(){
         List<Laboratorio> laboratorios = new ArrayList<>();
         try {
             

@@ -9,9 +9,9 @@ import repositorios.LaboratorioRepositorio;
  */
 public class LaboratorioServicio {
    
-    public static List<Laboratorio> getLaboratorios(){
+    public static List<Laboratorio> listarLaboratorios(){
        try {
-           return LaboratorioRepositorio.getLaboratorios();
+           return LaboratorioRepositorio.listarLaboratorios();
        } catch (Exception e) {
            throw e;
        }
