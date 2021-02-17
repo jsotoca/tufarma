@@ -1,5 +1,7 @@
 package aplicacion;
 
+import vista.frmPrincipal;
+
 /*import configuracion.MySQL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +18,8 @@ public class Tufarma {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        frmPrincipal aplicacion = new frmPrincipal();
+        aplicacion.setVisible(true);
         /*try {
             
             List<String> values = Arrays.asList("falcon","123.33");

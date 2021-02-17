@@ -11,6 +11,7 @@ public class frmPrincipal extends javax.swing.JFrame {
      */
     public frmPrincipal() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -22,44 +23,183 @@ public class frmPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        menuBar = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        panelContenedor = new javax.swing.JPanel();
+        panelLaboratorios = new javax.swing.JPanel();
+        panelMedicamentos = new javax.swing.JPanel();
+        panelActivos = new javax.swing.JPanel();
+        menuBarPrincipal = new javax.swing.JMenuBar();
+        menuAdministracion = new javax.swing.JMenu();
+        menuLaboratorio = new javax.swing.JMenuItem();
+        menuMedicamento = new javax.swing.JMenuItem();
+        menuPrincipioActivo = new javax.swing.JMenuItem();
+        menuSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tufama ");
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(240, 63, 135));
 
-        menuBar.setBackground(new java.awt.Color(76, 175, 80));
-        menuBar.setBorder(null);
-        menuBar.setForeground(new java.awt.Color(255, 255, 255));
-        menuBar.setPreferredSize(new java.awt.Dimension(56, 32));
+        panelContenedor.setLayout(new java.awt.CardLayout());
 
-        jMenu1.setForeground(new java.awt.Color(255, 255, 255));
-        jMenu1.setText("File");
-        menuBar.add(jMenu1);
+        panelLaboratorios.setBackground(new java.awt.Color(52, 73, 94));
 
-        jMenu2.setForeground(new java.awt.Color(255, 255, 255));
-        jMenu2.setText("Edit");
-        menuBar.add(jMenu2);
+        javax.swing.GroupLayout panelLaboratoriosLayout = new javax.swing.GroupLayout(panelLaboratorios);
+        panelLaboratorios.setLayout(panelLaboratoriosLayout);
+        panelLaboratoriosLayout.setHorizontalGroup(
+            panelLaboratoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 872, Short.MAX_VALUE)
+        );
+        panelLaboratoriosLayout.setVerticalGroup(
+            panelLaboratoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 439, Short.MAX_VALUE)
+        );
 
-        setJMenuBar(menuBar);
+        panelContenedor.add(panelLaboratorios, "card2");
+
+        panelMedicamentos.setBackground(new java.awt.Color(52, 73, 94));
+
+        javax.swing.GroupLayout panelMedicamentosLayout = new javax.swing.GroupLayout(panelMedicamentos);
+        panelMedicamentos.setLayout(panelMedicamentosLayout);
+        panelMedicamentosLayout.setHorizontalGroup(
+            panelMedicamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 872, Short.MAX_VALUE)
+        );
+        panelMedicamentosLayout.setVerticalGroup(
+            panelMedicamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 439, Short.MAX_VALUE)
+        );
+
+        panelContenedor.add(panelMedicamentos, "card3");
+
+        panelActivos.setBackground(new java.awt.Color(52, 73, 94));
+
+        javax.swing.GroupLayout panelActivosLayout = new javax.swing.GroupLayout(panelActivos);
+        panelActivos.setLayout(panelActivosLayout);
+        panelActivosLayout.setHorizontalGroup(
+            panelActivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 872, Short.MAX_VALUE)
+        );
+        panelActivosLayout.setVerticalGroup(
+            panelActivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 439, Short.MAX_VALUE)
+        );
+
+        panelContenedor.add(panelActivos, "card4");
+
+        menuAdministracion.setText("Administración");
+        menuAdministracion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cambiarContenedor(evt);
+            }
+        });
+
+        menuLaboratorio.setText("Labotatorios");
+        menuLaboratorio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cambiarMedicamento(evt);
+            }
+        });
+        menuLaboratorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cambiarPanel(evt);
+            }
+        });
+        menuAdministracion.add(menuLaboratorio);
+
+        menuMedicamento.setText("Medicamentos");
+        menuMedicamento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cambiarContenedor(evt);
+            }
+        });
+        menuMedicamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cambiarPanel(evt);
+            }
+        });
+        menuAdministracion.add(menuMedicamento);
+
+        menuPrincipioActivo.setText("Principios Activos");
+        menuPrincipioActivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cambiarContenedor(evt);
+            }
+        });
+        menuPrincipioActivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cambiarPanel(evt);
+            }
+        });
+        menuAdministracion.add(menuPrincipioActivo);
+
+        menuBarPrincipal.add(menuAdministracion);
+
+        menuSalir.setText("Salir");
+        menuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                salir(evt);
+            }
+        });
+        menuBarPrincipal.add(menuSalir);
+
+        setJMenuBar(menuBarPrincipal);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 754, Short.MAX_VALUE)
+            .addComponent(panelContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 374, Short.MAX_VALUE)
+            .addComponent(panelContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    private void salir(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salir
+        this.dispose();
+    }//GEN-LAST:event_salir
+
+    private void cambiarContenedor(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cambiarContenedor
+        if(evt.getSource() == panelLaboratorios){
+            System.out.println("labo");
+        }
+        if(evt.getSource() == panelMedicamentos){
+            System.out.println("medi");
+        }
+        if(evt.getSource() == panelActivos){
+            System.out.println("act");
+        }
+    }//GEN-LAST:event_cambiarContenedor
+
+    private void cambiarMedicamento(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cambiarMedicamento
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cambiarMedicamento
+
+    private void cambiarPanel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambiarPanel
+        if(evt.getSource() == menuLaboratorio){
+            panelLaboratorios.setVisible(true);
+            panelMedicamentos.setVisible(false);
+            panelActivos.setVisible(false);
+
+        }
+        if(evt.getSource() == menuMedicamento){
+            panelLaboratorios.setVisible(false);
+            panelMedicamentos.setVisible(true);
+            panelActivos.setVisible(false);
+        }
+        if(evt.getSource() == menuPrincipioActivo){
+            panelLaboratorios.setVisible(false);
+            panelMedicamentos.setVisible(false);
+            panelActivos.setVisible(true);
+        }
+    }//GEN-LAST:event_cambiarPanel
+
+    
     /**
      * @param args the command line arguments
      */
@@ -96,8 +236,15 @@ public class frmPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu menuAdministracion;
+    private javax.swing.JMenuBar menuBarPrincipal;
+    private javax.swing.JMenuItem menuLaboratorio;
+    private javax.swing.JMenuItem menuMedicamento;
+    private javax.swing.JMenuItem menuPrincipioActivo;
+    private javax.swing.JMenu menuSalir;
+    private javax.swing.JPanel panelActivos;
+    private javax.swing.JPanel panelContenedor;
+    private javax.swing.JPanel panelLaboratorios;
+    private javax.swing.JPanel panelMedicamentos;
     // End of variables declaration//GEN-END:variables
 }
