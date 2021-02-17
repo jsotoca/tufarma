@@ -6,12 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 /**
  *
  * @author Juan Antonio Soto Cabrera <https://github.com/jsotoca/>
  */
 public class LaboratorioRepositorio {
+    
     public static List<Laboratorio> getLaboratorios(){
         List<Laboratorio> laboratorios = new ArrayList<>();
         try {
@@ -28,5 +30,14 @@ public class LaboratorioRepositorio {
             System.out.println(e);
         }
         return laboratorios;
+    }
+    
+    public static void crearLaboratorio(Laboratorio lab){
+        try {
+            List<Object> values = Arrays.asList(lab.getNombre(),lab.isVigente());
+            MySQL.executeUpdate("INSERT INTO laboratorio(nombre, vigencia) VALUES(?, ?)", values);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }

@@ -1,15 +1,18 @@
 package vista;
 
 import entidades.Laboratorio;
+import java.awt.Component;
 import servicios.LaboratorioServicio;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import javax.swing.JPanel;
 /**
  *
  * @author Albert Wesker <wesker@umbrella.corps>
  */
 public class frmPrincipal extends javax.swing.JFrame {
     
+    boolean accion;
     DefaultTableModel modelLaboratorios = new DefaultTableModel(){
         @Override
         public Class<?> getColumnClass(int columnIndex) {
@@ -31,8 +34,27 @@ public class frmPrincipal extends javax.swing.JFrame {
      */
     public frmPrincipal() {
         initComponents();
+        this.inicializarPaneles();
         this.setLocationRelativeTo(null);
         this.cargarTablaLaboratorios();
+    }
+    
+    private void inicializarPaneles(){
+        this.setPanelEnabled(panDataLab, false);
+    }
+    
+    private void setPanelEnabled(JPanel panel, Boolean isEnabled) {
+        panel.setEnabled(isEnabled);
+
+            Component[] components = panel.getComponents();
+
+        for(int i = 0; i < components.length; i++) {
+            if(components[i].getClass().getName() == "javax.swing.JPanel") {
+                setPanelEnabled((JPanel) components[i], isEnabled);
+            }
+
+            components[i].setEnabled(isEnabled);
+        }
     }
     
     public void cargarTablaLaboratorios(){
@@ -70,15 +92,17 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         panelContenedor = new javax.swing.JPanel();
         panelLaboratorios = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        panDataLab = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        txtNombreLab = new javax.swing.JTextField();
+        cbVigenciaLab = new javax.swing.JCheckBox();
+        btnAceptarLab = new javax.swing.JButton();
+        btnCancelarLab = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbLaboratorios = new javax.swing.JTable();
+        btnNuevoLab = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         panelMedicamentos = new javax.swing.JPanel();
         panelActivos = new javax.swing.JPanel();
@@ -98,46 +122,51 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         panelLaboratorios.setBackground(new java.awt.Color(236, 240, 241));
 
-        jPanel1.setBackground(new java.awt.Color(236, 240, 241));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Laboratorio", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
+        panDataLab.setBackground(new java.awt.Color(236, 240, 241));
+        panDataLab.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Laboratorio", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
 
         jLabel1.setText("Nombre:");
 
-        jCheckBox1.setText("Vigente");
+        cbVigenciaLab.setText("Vigente");
 
-        jButton1.setText("Aceptar");
+        btnAceptarLab.setText("Aceptar");
+        btnAceptarLab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarLabActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Cancelar");
+        btnCancelarLab.setText("Cancelar");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panDataLabLayout = new javax.swing.GroupLayout(panDataLab);
+        panDataLab.setLayout(panDataLabLayout);
+        panDataLabLayout.setHorizontalGroup(
+            panDataLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panDataLabLayout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                .addGroup(panDataLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panDataLabLayout.createSequentialGroup()
+                        .addComponent(btnAceptarLab)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2))
-                    .addComponent(jCheckBox1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnCancelarLab))
+                    .addComponent(cbVigenciaLab)
+                    .addComponent(txtNombreLab, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        panDataLabLayout.setVerticalGroup(
+            panDataLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panDataLabLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panDataLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombreLab, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
+                .addComponent(cbVigenciaLab)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                .addGroup(panDataLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAceptarLab)
+                    .addComponent(btnCancelarLab))
                 .addContainerGap(92, Short.MAX_VALUE))
         );
 
@@ -167,20 +196,39 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tbLaboratorios);
 
+        btnNuevoLab.setText("Nuevo");
+        btnNuevoLab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoLabActionPerformed(evt);
+            }
+        });
+
+        btnModificar.setText("Modificar");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnNuevoLab)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnModificar)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevoLab)
+                    .addComponent(btnModificar))
+                .addGap(0, 11, Short.MAX_VALUE))
         );
 
         jButton3.setText("Salir");
@@ -193,7 +241,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelLaboratoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLaboratoriosLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(panDataLab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLaboratoriosLayout.createSequentialGroup()
@@ -206,11 +254,11 @@ public class frmPrincipal extends javax.swing.JFrame {
             .addGroup(panelLaboratoriosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelLaboratoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panDataLab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         panelContenedor.add(panelLaboratorios, "card2");
@@ -360,7 +408,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void seleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seleccionarColumna
         
-        System.out.println(tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 0).toString());
+        
         int codigo = (int) tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 0);
         String nombre = tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 1).toString();
         boolean vigencia = (boolean) tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 2);
@@ -370,6 +418,23 @@ public class frmPrincipal extends javax.swing.JFrame {
         System.out.println(lab.getNombre());
         System.out.println(lab.isVigente());
     }//GEN-LAST:event_seleccionarColumna
+
+    private void btnNuevoLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoLabActionPerformed
+        this.accion = true;
+        this.setPanelEnabled(panDataLab,true);
+    }//GEN-LAST:event_btnNuevoLabActionPerformed
+
+    private void btnAceptarLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarLabActionPerformed
+        if(this.accion){
+            String nombre = this.txtNombreLab.getText();
+            boolean vigencia = (boolean) cbVigenciaLab.isSelected();
+            Laboratorio lab = new Laboratorio(nombre,vigencia);
+            LaboratorioServicio.crearLaboratorio(lab);
+        }else{
+            
+        }
+
+    }//GEN-LAST:event_btnAceptarLabActionPerformed
 
     
     /**
@@ -408,25 +473,27 @@ public class frmPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnAceptarLab;
+    private javax.swing.JButton btnCancelarLab;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnNuevoLab;
+    private javax.swing.JCheckBox cbVigenciaLab;
     private javax.swing.JButton jButton3;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JMenu menuAdministracion;
     private javax.swing.JMenuBar menuBarPrincipal;
     private javax.swing.JMenuItem menuLaboratorio;
     private javax.swing.JMenuItem menuMedicamento;
     private javax.swing.JMenuItem menuPrincipioActivo;
     private javax.swing.JMenu menuSalir;
+    private javax.swing.JPanel panDataLab;
     private javax.swing.JPanel panelActivos;
     private javax.swing.JPanel panelContenedor;
     private javax.swing.JPanel panelLaboratorios;
     private javax.swing.JPanel panelMedicamentos;
     private javax.swing.JTable tbLaboratorios;
+    private javax.swing.JTextField txtNombreLab;
     // End of variables declaration//GEN-END:variables
 }

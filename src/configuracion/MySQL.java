@@ -49,7 +49,7 @@ public class MySQL {
         return rs;
     }
     
-    public static boolean executeUpdate(String query, List<String> values){
+    public static boolean executeUpdate(String query, List<Object> values){
         PreparedStatement stm;
         boolean result = false;
         try {
@@ -57,8 +57,8 @@ public class MySQL {
             stm = getInstance().conn.prepareStatement(query);
             int idx = 1;
             
-            for (String temp : values) {
-                stm.setString(idx, temp);
+            for (Object temp : values) {
+                stm.setObject(idx, temp);
                 idx++;
             }
             

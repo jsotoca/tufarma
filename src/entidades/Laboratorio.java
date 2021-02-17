@@ -12,13 +12,17 @@ public class Laboratorio {
     
     public Laboratorio() {
     }
+    
+    public Laboratorio(String nombre, boolean vigente) {
+        this.nombre = nombre;
+        this.vigente = vigente;
+    }
 
     public Laboratorio(int codigo, String nombre, boolean vigente) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.vigente = vigente;
     }
-    
     
 
     public int getCodigo() {

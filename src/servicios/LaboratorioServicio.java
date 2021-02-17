@@ -9,12 +9,20 @@ import repositorios.LaboratorioRepositorio;
  */
 public class LaboratorioServicio {
    
-   public static List<Laboratorio> getLaboratorios(){
+    public static List<Laboratorio> getLaboratorios(){
        try {
            return LaboratorioRepositorio.getLaboratorios();
        } catch (Exception e) {
            throw e;
        }
-   }  
+    }
+    
+    public static void crearLaboratorio(Laboratorio lab){
+       try {
+           LaboratorioRepositorio.crearLaboratorio(lab);
+       } catch (Exception e) {
+           throw e;
+       }
+    }
    
 }
