@@ -1,14 +1,16 @@
 package vista;
 
 import entidades.Laboratorio;
+import entidades.PrincipioActivo;
 import java.awt.Component;
 import servicios.LaboratorioServicio;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import javax.swing.JPanel;
+import servicios.PrincipioActivoServicio;
 /**
  *
- * @author Albert Wesker <wesker@umbrella.corps>
+ * @author Juan Antonio Soto Cabrera <https://github.com/jsotoca/>
  */
 public class frmPrincipal extends javax.swing.JFrame {
     
@@ -29,6 +31,23 @@ public class frmPrincipal extends javax.swing.JFrame {
                 }
         }
     };
+    DefaultTableModel modelPrincipios = new DefaultTableModel(){
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            switch (columnIndex) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return String.class;
+                    case 3:
+                        return Boolean.class;
+                    default:
+                        return Boolean.class;
+                }
+        }
+    };
 
     /**
      * Creates new form frmPrincipal
@@ -37,7 +56,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         initComponents();
         this.inicializarPaneles();
         this.setLocationRelativeTo(null);
-        this.cargarTablaLaboratorios();
+        this.cargarTablas();
     }
     
     private void inicializarPaneles(){
@@ -75,6 +94,29 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
     }
     
+    private void cargarDataTablaPrincipios(){
+        List <PrincipioActivo> principios = PrincipioActivoServicio.listarPrincipioActivos();
+        
+        modelPrincipios.setRowCount(0);
+        
+        for (PrincipioActivo prin : principios) {
+            
+            int codigo = prin.getCodigo();
+            String nombre = prin.getNombre();
+            String descripcion = prin.getDescripcion();
+            boolean vigencia = prin.isVigente();
+            
+            Object[] data = {codigo, nombre, descripcion ,vigencia};
+
+            modelPrincipios.addRow(data);
+        }
+    }
+    
+    private void cargarTablas(){
+        this.cargarTablaLaboratorios();
+        this.cargarTablaPrincipios();
+    }
+    
     public void cargarTablaLaboratorios(){
         
         modelLaboratorios.addColumn("id");        
@@ -84,6 +126,19 @@ public class frmPrincipal extends javax.swing.JFrame {
         this.cargarDataTablaLaboratorios();
         
         this.tbLaboratorios.setModel(modelLaboratorios);
+        
+    }
+    
+    public void cargarTablaPrincipios(){
+        
+        modelPrincipios.addColumn("id");        
+        modelPrincipios.addColumn("nombre");
+        modelPrincipios.addColumn("descripcion");
+        modelPrincipios.addColumn("vigencia");
+
+        this.cargarDataTablaPrincipios();
+        
+        this.tbPrincipios.setModel(modelPrincipios);
         
     }
 
@@ -112,6 +167,20 @@ public class frmPrincipal extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         panelMedicamentos = new javax.swing.JPanel();
         panelActivos = new javax.swing.JPanel();
+        panDataPrin = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        txtNombrePrin = new javax.swing.JTextField();
+        cbVigenciaPrin = new javax.swing.JCheckBox();
+        btnAceptarPrin = new javax.swing.JButton();
+        btnCancelarPrin = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        txtDescripcionPrin = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tbPrincipios = new javax.swing.JTable();
+        btnNuevoPrin = new javax.swing.JButton();
+        btnModificarPrin = new javax.swing.JButton();
+        btnSalirPrin = new javax.swing.JButton();
         menuBarPrincipal = new javax.swing.JMenuBar();
         menuAdministracion = new javax.swing.JMenu();
         menuLaboratorio = new javax.swing.JMenuItem();
@@ -299,17 +368,172 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         panelContenedor.add(panelMedicamentos, "card3");
 
-        panelActivos.setBackground(new java.awt.Color(52, 73, 94));
+        panelActivos.setBackground(new java.awt.Color(236, 240, 241));
+
+        panDataPrin.setBackground(new java.awt.Color(236, 240, 241));
+        panDataPrin.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Principio Activo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
+
+        jLabel2.setText("Nombre:");
+
+        cbVigenciaPrin.setText("Vigente");
+
+        btnAceptarPrin.setText("Aceptar");
+        btnAceptarPrin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarPrinActionPerformed(evt);
+            }
+        });
+
+        btnCancelarPrin.setText("Cancelar");
+        btnCancelarPrin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarPrinActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Descrip:");
+
+        javax.swing.GroupLayout panDataPrinLayout = new javax.swing.GroupLayout(panDataPrin);
+        panDataPrin.setLayout(panDataPrinLayout);
+        panDataPrinLayout.setHorizontalGroup(
+            panDataPrinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panDataPrinLayout.createSequentialGroup()
+                .addGroup(panDataPrinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panDataPrinLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtDescripcionPrin, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panDataPrinLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panDataPrinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panDataPrinLayout.createSequentialGroup()
+                                .addComponent(btnAceptarPrin)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCancelarPrin))
+                            .addComponent(cbVigenciaPrin)
+                            .addComponent(txtNombrePrin, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(67, Short.MAX_VALUE))
+        );
+        panDataPrinLayout.setVerticalGroup(
+            panDataPrinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panDataPrinLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(panDataPrinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtNombrePrin, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panDataPrinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtDescripcionPrin, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(cbVigenciaPrin)
+                .addGap(18, 18, 18)
+                .addGroup(panDataPrinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAceptarPrin)
+                    .addComponent(btnCancelarPrin))
+                .addGap(43, 43, 43))
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado de Laboratorios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
+
+        jScrollPane3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane3seleccionarColumna(evt);
+            }
+        });
+
+        tbPrincipios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tbPrincipios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbPrincipiosseleccionarColumna(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tbPrincipios);
+
+        btnNuevoPrin.setText("Nuevo");
+        btnNuevoPrin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoPrinActionPerformed(evt);
+            }
+        });
+
+        btnModificarPrin.setText("Modificar");
+        btnModificarPrin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarPrinActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnNuevoPrin)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnModificarPrin)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevoPrin)
+                    .addComponent(btnModificarPrin))
+                .addGap(0, 11, Short.MAX_VALUE))
+        );
+
+        btnSalirPrin.setText("Salir");
+        btnSalirPrin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirPrinActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelActivosLayout = new javax.swing.GroupLayout(panelActivos);
         panelActivos.setLayout(panelActivosLayout);
         panelActivosLayout.setHorizontalGroup(
             panelActivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 872, Short.MAX_VALUE)
+            .addGroup(panelActivosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelActivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelActivosLayout.createSequentialGroup()
+                        .addComponent(panDataPrin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelActivosLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSalirPrin)))
+                .addContainerGap())
         );
         panelActivosLayout.setVerticalGroup(
             panelActivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 439, Short.MAX_VALUE)
+            .addGroup(panelActivosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelActivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panDataPrin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnSalirPrin)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         panelContenedor.add(panelActivos, "card4");
@@ -480,6 +704,34 @@ public class frmPrincipal extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void btnAceptarPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarPrinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAceptarPrinActionPerformed
+
+    private void btnCancelarPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarPrinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarPrinActionPerformed
+
+    private void tbPrincipiosseleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPrincipiosseleccionarColumna
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbPrincipiosseleccionarColumna
+
+    private void jScrollPane3seleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane3seleccionarColumna
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane3seleccionarColumna
+
+    private void btnNuevoPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPrinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNuevoPrinActionPerformed
+
+    private void btnModificarPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarPrinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModificarPrinActionPerformed
+
+    private void btnSalirPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirPrinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalirPrinActionPerformed
+
 
     private void limpiarPanLab(){
         txtNombreLab.setText("");
@@ -523,14 +775,24 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptarLab;
+    private javax.swing.JButton btnAceptarPrin;
     private javax.swing.JButton btnCancelarLab;
+    private javax.swing.JButton btnCancelarPrin;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnModificarPrin;
     private javax.swing.JButton btnNuevoLab;
+    private javax.swing.JButton btnNuevoPrin;
+    private javax.swing.JButton btnSalirPrin;
     private javax.swing.JCheckBox cbVigenciaLab;
+    private javax.swing.JCheckBox cbVigenciaPrin;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JMenu menuAdministracion;
     private javax.swing.JMenuBar menuBarPrincipal;
     private javax.swing.JMenuItem menuLaboratorio;
@@ -538,11 +800,15 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuPrincipioActivo;
     private javax.swing.JMenu menuSalir;
     private javax.swing.JPanel panDataLab;
+    private javax.swing.JPanel panDataPrin;
     private javax.swing.JPanel panelActivos;
     private javax.swing.JPanel panelContenedor;
     private javax.swing.JPanel panelLaboratorios;
     private javax.swing.JPanel panelMedicamentos;
     private javax.swing.JTable tbLaboratorios;
+    private javax.swing.JTable tbPrincipios;
+    private javax.swing.JTextField txtDescripcionPrin;
     private javax.swing.JTextField txtNombreLab;
+    private javax.swing.JTextField txtNombrePrin;
     // End of variables declaration//GEN-END:variables
 }
