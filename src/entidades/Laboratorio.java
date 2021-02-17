@@ -9,6 +9,17 @@ public class Laboratorio {
     private int codigo;
     private String nombre;
     private boolean vigente;
+    
+    public Laboratorio() {
+    }
+
+    public Laboratorio(int codigo, String nombre, boolean vigente) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.vigente = vigente;
+    }
+    
+    
 
     public int getCodigo() {
         return codigo;

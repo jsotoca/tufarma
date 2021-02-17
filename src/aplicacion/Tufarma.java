@@ -1,5 +1,8 @@
 package aplicacion;
 
+import entidades.Laboratorio;
+import java.util.List;
+import servicios.LaboratorioServicio;
 import vista.frmPrincipal;
 
 /*import configuracion.MySQL;
@@ -18,6 +21,19 @@ public class Tufarma {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        /*try {
+            List<Laboratorio> laboratorios;
+            
+            laboratorios = LaboratorioServicio.getLaboratorios();
+            
+            for (Laboratorio l : laboratorios) {
+                System.out.println(l.getNombre());
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }*/
+        
         frmPrincipal aplicacion = new frmPrincipal();
         aplicacion.setVisible(true);
         /*try {

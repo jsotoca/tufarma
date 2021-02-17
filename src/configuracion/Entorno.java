@@ -6,7 +6,7 @@ package configuracion;
  */
 public class Entorno {
     public static String DB_HOST = "localhost:3306";
-    public static String DB_NAME = "kodoti";
+    public static String DB_NAME = "bd_farmacia";
     public static String DB_USER = "root";
     public static String DB_PASS = "";
 }

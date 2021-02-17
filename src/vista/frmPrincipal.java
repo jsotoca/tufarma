@@ -1,24 +1,62 @@
 package vista;
 
-import java.awt.Font;
-
+import entidades.Laboratorio;
+import servicios.LaboratorioServicio;
+import javax.swing.table.DefaultTableModel;
+import java.util.List;
 /**
  *
  * @author Albert Wesker <wesker@umbrella.corps>
  */
 public class frmPrincipal extends javax.swing.JFrame {
+    
+    DefaultTableModel modelLaboratorios = new DefaultTableModel(){
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            switch (columnIndex) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return Boolean.class;
+                    default:
+                        return Boolean.class;
+                }
+        }
+    };
 
     /**
      * Creates new form frmPrincipal
      */
     public frmPrincipal() {
         initComponents();
-        setLocationRelativeTo(null);
-        try{
-            Font font = Font.createFont(Font.TRUETYPE_FONT, frmPrincipal.class.getResourceAsStream("PixelFont.ttf"));
-            menuBarPrincipal.setFont(font.deriveFont(Font.BOLD, 12f));
+        this.setLocationRelativeTo(null);
+        this.cargarTablaLaboratorios();
+    }
+    
+    public void cargarTablaLaboratorios(){
+        
+        modelLaboratorios.addColumn("id");        
+        modelLaboratorios.addColumn("nombre");
+        modelLaboratorios.addColumn("vigencia");
+
+        List <Laboratorio> laboratorios = LaboratorioServicio.getLaboratorios();
+        
+        for (Laboratorio laboratorio : laboratorios) {
+            
+            int codigo = laboratorio.getCodigo();
+            String nombre = laboratorio.getNombre();
+            boolean vigencia = laboratorio.isVigente();
+            
+            Object[] data = {codigo, nombre, vigencia};
+
+            modelLaboratorios.addRow(data);
         }
-        catch(Exception e){}
+        
+        this.tbLaboratorios.setModel(modelLaboratorios);
+        //this.tbLaboratorios.setEnabled(false);
+        
     }
 
     /**
@@ -40,7 +78,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbLaboratorios = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         panelMedicamentos = new javax.swing.JPanel();
         panelActivos = new javax.swing.JPanel();
@@ -105,7 +143,13 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado de Laboratorios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jScrollPane2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                seleccionarColumna(evt);
+            }
+        });
+
+        tbLaboratorios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -116,7 +160,12 @@ public class frmPrincipal extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        tbLaboratorios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                seleccionarColumna(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbLaboratorios);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -309,6 +358,19 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cambiarPanel
 
+    private void seleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seleccionarColumna
+        
+        System.out.println(tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 0).toString());
+        int codigo = (int) tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 0);
+        String nombre = tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 1).toString();
+        boolean vigencia = (boolean) tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 2);
+        
+        Laboratorio lab = new Laboratorio(codigo, nombre, vigencia);
+        System.out.println(lab.getCodigo());
+        System.out.println(lab.getNombre());
+        System.out.println(lab.isVigente());
+    }//GEN-LAST:event_seleccionarColumna
+
     
     /**
      * @param args the command line arguments
@@ -354,7 +416,6 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JMenu menuAdministracion;
     private javax.swing.JMenuBar menuBarPrincipal;
@@ -366,5 +427,6 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel panelContenedor;
     private javax.swing.JPanel panelLaboratorios;
     private javax.swing.JPanel panelMedicamentos;
+    private javax.swing.JTable tbLaboratorios;
     // End of variables declaration//GEN-END:variables
 }
