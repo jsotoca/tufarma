@@ -170,6 +170,30 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnModificar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         panelMedicamentos = new javax.swing.JPanel();
+        panDataMed = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        txtNombreMed = new javax.swing.JTextField();
+        cbVigenciaMed = new javax.swing.JCheckBox();
+        btnAceptarMed = new javax.swing.JButton();
+        btnCancelarMed = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        txtPrecioMed = new javax.swing.JTextField();
+        comboLaboratorios = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        comboPrincipio = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtConcentracion = new javax.swing.JTextField();
+        cbVigenciaCom = new javax.swing.JCheckBox();
+        btnAgregarCom = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaComponentes = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tbMedicamentos = new javax.swing.JTable();
+        btnNuevoMed = new javax.swing.JButton();
+        btnModificarMed = new javax.swing.JButton();
         panelActivos = new javax.swing.JPanel();
         panDataPrin = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -357,17 +381,257 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         panelContenedor.add(panelLaboratorios, "card2");
 
-        panelMedicamentos.setBackground(new java.awt.Color(52, 73, 94));
+        panelMedicamentos.setBackground(new java.awt.Color(236, 240, 241));
+
+        panDataMed.setBackground(new java.awt.Color(236, 240, 241));
+        panDataMed.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Medicamento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
+
+        jLabel4.setText("Nombre:");
+
+        cbVigenciaMed.setText("Vigente");
+
+        btnAceptarMed.setText("Aceptar");
+        btnAceptarMed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarMedActionPerformed(evt);
+            }
+        });
+
+        btnCancelarMed.setText("Cancelar");
+        btnCancelarMed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarMedActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Precio:");
+
+        comboLaboratorios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel6.setText("Lab:");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Composición", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
+
+        comboPrincipio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel7.setText("Principio Activo:");
+
+        jLabel8.setText("Concentracion:");
+
+        cbVigenciaCom.setText("Vigente");
+
+        btnAgregarCom.setText("Agregar Componente");
+        btnAgregarCom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarComActionPerformed(evt);
+            }
+        });
+
+        tablaComponentes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaComponentes);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtConcentracion)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnAgregarCom)
+                                    .addComponent(cbVigenciaCom)
+                                    .addComponent(comboPrincipio, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboPrincipio, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtConcentracion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbVigenciaCom)
+                .addGap(18, 18, 18)
+                .addComponent(btnAgregarCom)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout panDataMedLayout = new javax.swing.GroupLayout(panDataMed);
+        panDataMed.setLayout(panDataMedLayout);
+        panDataMedLayout.setHorizontalGroup(
+            panDataMedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panDataMedLayout.createSequentialGroup()
+                .addGroup(panDataMedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panDataMedLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panDataMedLayout.createSequentialGroup()
+                        .addGroup(panDataMedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panDataMedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(panDataMedLayout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(panDataMedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(cbVigenciaMed)
+                                        .addComponent(txtNombreMed, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(panDataMedLayout.createSequentialGroup()
+                                    .addGroup(panDataMedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel5)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panDataMedLayout.createSequentialGroup()
+                                            .addContainerGap()
+                                            .addComponent(jLabel6)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(panDataMedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(comboLaboratorios, 0, 255, Short.MAX_VALUE)
+                                        .addComponent(txtPrecioMed))))
+                            .addGroup(panDataMedLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(btnAceptarMed)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCancelarMed)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        panDataMedLayout.setVerticalGroup(
+            panDataMedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panDataMedLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(panDataMedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtNombreMed, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panDataMedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtPrecioMed, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panDataMedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboLaboratorios, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(18, 18, 18)
+                .addComponent(cbVigenciaMed)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(panDataMedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAceptarMed)
+                    .addComponent(btnCancelarMed))
+                .addContainerGap())
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado de Medicamentos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
+
+        jScrollPane4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane4seleccionarColumna(evt);
+            }
+        });
+
+        tbMedicamentos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tbMedicamentos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbMedicamentosseleccionarColumna(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tbMedicamentos);
+
+        btnNuevoMed.setText("Nuevo");
+        btnNuevoMed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoMedActionPerformed(evt);
+            }
+        });
+
+        btnModificarMed.setText("Modificar");
+        btnModificarMed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarMedActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(btnNuevoMed)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnModificarMed)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevoMed)
+                    .addComponent(btnModificarMed))
+                .addGap(0, 11, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout panelMedicamentosLayout = new javax.swing.GroupLayout(panelMedicamentos);
         panelMedicamentos.setLayout(panelMedicamentosLayout);
         panelMedicamentosLayout.setHorizontalGroup(
             panelMedicamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 872, Short.MAX_VALUE)
+            .addGroup(panelMedicamentosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panDataMed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         panelMedicamentosLayout.setVerticalGroup(
             panelMedicamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 439, Short.MAX_VALUE)
+            .addGroup(panelMedicamentosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelMedicamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panDataMed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelMedicamentosLayout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         panelContenedor.add(panelMedicamentos, "card3");
@@ -718,8 +982,8 @@ public class frmPrincipal extends javax.swing.JFrame {
             PrincipioActivoServicio.crearPrincipioActivo(pa);
         }    
         else{
-            /*labo.setCodigo(this.lab.getCodigo());
-            LaboratorioServicio.actualizarLaboratorio(labo);*/
+            pa.setCodigo(this.prin.getCodigo());
+            PrincipioActivoServicio.actualizarPrincipioActivo(pa);
         }
             
         this.cargarDataTablaPrincipios();
@@ -733,7 +997,12 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarPrinActionPerformed
 
     private void tbPrincipiosseleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPrincipiosseleccionarColumna
-        // TODO add your handling code here:
+        int codigo = (int) tbPrincipios.getValueAt(tbPrincipios.getSelectedRow(), 0);
+        String nombre = tbPrincipios.getValueAt(tbPrincipios.getSelectedRow(), 1).toString();
+        String descripcion = tbPrincipios.getValueAt(tbPrincipios.getSelectedRow(), 2).toString();
+        boolean vigencia = (boolean) tbPrincipios.getValueAt(tbPrincipios.getSelectedRow(), 3);
+        
+        this.prin = new PrincipioActivo(codigo, nombre, descripcion, vigencia);
     }//GEN-LAST:event_tbPrincipiosseleccionarColumna
 
     private void jScrollPane3seleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane3seleccionarColumna
@@ -747,12 +1016,45 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevoPrinActionPerformed
 
     private void btnModificarPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarPrinActionPerformed
-        // TODO add your handling code here:
+        this.accionPrin = false;
+        this.limpiarPanPrin();
+        txtNombrePrin.setText(this.prin.getNombre());
+        txtDescripcionPrin.setText(this.prin.getDescripcion());
+        cbVigenciaPrin.setSelected(this.prin.isVigente());
+        this.setPanelEnabled(panDataPrin,true);
     }//GEN-LAST:event_btnModificarPrinActionPerformed
 
     private void btnSalirPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirPrinActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnSalirPrinActionPerformed
+
+    private void btnAceptarMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarMedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAceptarMedActionPerformed
+
+    private void btnCancelarMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarMedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarMedActionPerformed
+
+    private void tbMedicamentosseleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMedicamentosseleccionarColumna
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbMedicamentosseleccionarColumna
+
+    private void jScrollPane4seleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane4seleccionarColumna
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane4seleccionarColumna
+
+    private void btnNuevoMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoMedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNuevoMedActionPerformed
+
+    private void btnModificarMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarMedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModificarMedActionPerformed
+
+    private void btnAgregarComActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarComActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAgregarComActionPerformed
 
 
     private void limpiarPanLab(){
@@ -803,24 +1105,42 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptarLab;
+    private javax.swing.JButton btnAceptarMed;
     private javax.swing.JButton btnAceptarPrin;
+    private javax.swing.JButton btnAgregarCom;
     private javax.swing.JButton btnCancelarLab;
+    private javax.swing.JButton btnCancelarMed;
     private javax.swing.JButton btnCancelarPrin;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnModificarMed;
     private javax.swing.JButton btnModificarPrin;
     private javax.swing.JButton btnNuevoLab;
+    private javax.swing.JButton btnNuevoMed;
     private javax.swing.JButton btnNuevoPrin;
     private javax.swing.JButton btnSalirPrin;
+    private javax.swing.JCheckBox cbVigenciaCom;
     private javax.swing.JCheckBox cbVigenciaLab;
+    private javax.swing.JCheckBox cbVigenciaMed;
     private javax.swing.JCheckBox cbVigenciaPrin;
+    private javax.swing.JComboBox<String> comboLaboratorios;
+    private javax.swing.JComboBox<String> comboPrincipio;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JMenu menuAdministracion;
     private javax.swing.JMenuBar menuBarPrincipal;
     private javax.swing.JMenuItem menuLaboratorio;
@@ -828,15 +1148,21 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuPrincipioActivo;
     private javax.swing.JMenu menuSalir;
     private javax.swing.JPanel panDataLab;
+    private javax.swing.JPanel panDataMed;
     private javax.swing.JPanel panDataPrin;
     private javax.swing.JPanel panelActivos;
     private javax.swing.JPanel panelContenedor;
     private javax.swing.JPanel panelLaboratorios;
     private javax.swing.JPanel panelMedicamentos;
+    private javax.swing.JTable tablaComponentes;
     private javax.swing.JTable tbLaboratorios;
+    private javax.swing.JTable tbMedicamentos;
     private javax.swing.JTable tbPrincipios;
+    private javax.swing.JTextField txtConcentracion;
     private javax.swing.JTextField txtDescripcionPrin;
     private javax.swing.JTextField txtNombreLab;
+    private javax.swing.JTextField txtNombreMed;
     private javax.swing.JTextField txtNombrePrin;
+    private javax.swing.JTextField txtPrecioMed;
     // End of variables declaration//GEN-END:variables
 }

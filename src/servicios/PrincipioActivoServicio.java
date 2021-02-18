@@ -25,4 +25,12 @@ public class PrincipioActivoServicio {
            throw e;
        }
     }
+    
+    public static void actualizarPrincipioActivo(PrincipioActivo pa){
+       try {
+           PrincipioActivoRepositorio.actualizarPrincipioActivo(pa);
+       } catch (Exception e) {
+           throw e;
+       }
+    }
 }

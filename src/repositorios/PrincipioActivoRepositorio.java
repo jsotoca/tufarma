@@ -42,11 +42,11 @@ public class PrincipioActivoRepositorio {
         }
     }
     
-    public static void actualizarPrincipioActivo(PrincipioActivo lab){
+    public static void actualizarPrincipioActivo(PrincipioActivo pa){
         
         try {
-            List<Object> values = Arrays.asList(lab.getNombre(),lab.isVigente(),lab.getCodigo());
-            MySQL.executeUpdate("UPDATE laboratorio set nombre = ?, vigencia = ? WHERE id_laboratorio = ?", values);
+            List<Object> values = Arrays.asList(pa.getNombre(),pa.getDescripcion(),pa.isVigente(),pa.getCodigo());
+            MySQL.executeUpdate("UPDATE principio_activo set nombre = ?, descripcion = ?, vigencia = ? WHERE id_principio_activo = ?", values);
         } catch (Exception e) {
             System.out.println(e);
         }
