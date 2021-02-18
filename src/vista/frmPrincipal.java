@@ -3,12 +3,15 @@ package vista;
 import entidades.Laboratorio;
 import entidades.Medicamento;
 import entidades.PrincipioActivo;
+import entidades.Componente;
 import helpers.ComboItem;
 import java.awt.Component;
+import java.util.ArrayList;
 import servicios.LaboratorioServicio;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.table.TableColumnModel;
 import servicios.MedicamentoServicio;
 import servicios.PrincipioActivoServicio;
 /**
@@ -57,6 +60,23 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
     };
     DefaultTableModel modelMedicamentos = new DefaultTableModel(){
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            switch (columnIndex) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return String.class;
+                    case 3:
+                        return Boolean.class;
+                    default:
+                        return Boolean.class;
+                }
+        }
+    };
+    DefaultTableModel modelComponentes = new DefaultTableModel(){
         @Override
         public Class<?> getColumnClass(int columnIndex) {
             switch (columnIndex) {
@@ -145,7 +165,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         modelMedicamentos.setRowCount(0);
         
         for (Medicamento medi : medicamentos) {
-            
             int codigo = medi.getCodigo();
             String nombre = medi.getNombre();
             Float precio = medi.getPrecio();
@@ -161,6 +180,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         this.cargarTablaLaboratorios();
         this.cargarTablaPrincipios();
         this.cargarTablaMedicamentos();
+        this.cargarTablaComponentes();
     }
     
     public void cargarTablaLaboratorios(){
@@ -199,6 +219,19 @@ public class frmPrincipal extends javax.swing.JFrame {
         
         this.tbMedicamentos.setModel(modelMedicamentos);
         
+    }
+    
+    public void cargarTablaComponentes(){
+        
+        modelComponentes.addColumn("id_principio");        
+        modelComponentes.addColumn("principio");        
+        modelComponentes.addColumn("concentracion");
+        modelComponentes.addColumn("vigencia");
+
+        this.tbComponentes.setModel(modelComponentes);
+        
+        TableColumnModel tcm = this.tbComponentes.getColumnModel();
+        tcm.removeColumn(tcm.getColumn(0));
     }
 
     private void cargarCombos(){
@@ -267,7 +300,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         cbVigenciaCom = new javax.swing.JCheckBox();
         btnAgregarCom = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaComponentes = new javax.swing.JTable();
+        tbComponentes = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tbMedicamentos = new javax.swing.JTable();
@@ -502,7 +535,7 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
 
-        tablaComponentes.setModel(new javax.swing.table.DefaultTableModel(
+        tbComponentes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -513,7 +546,8 @@ public class frmPrincipal extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tablaComponentes);
+        tbComponentes.setEnabled(false);
+        jScrollPane1.setViewportView(tbComponentes);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1104,7 +1138,56 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirPrinActionPerformed
 
     private void btnAceptarMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarMedActionPerformed
-        // TODO add your handling code here:
+        int cantidad = this.modelComponentes.getRowCount();
+        if(cantidad != 0){
+            
+            List <Componente> componentes = new ArrayList<>();
+            
+            for (int i = 0; i < cantidad; i++) {
+                
+                int id_principio = (int) modelComponentes.getValueAt(i, 0);
+                
+                PrincipioActivo princi = new PrincipioActivo();
+                princi.setCodigo(id_principio);
+                
+                String concentracion = modelComponentes.getValueAt(i, 2).toString();
+                boolean vigencia = (boolean) modelComponentes.getValueAt(i, 3);
+                
+                Componente compo = new Componente();
+                
+                compo.setPrincipio(princi);
+                compo.setVigente(vigencia);
+                compo.setConcentracion(concentracion);
+                
+                componentes.add(compo);
+            }
+            
+            String nombre = this.txtNombreMed.getText();
+            float precio = Float.valueOf(this.txtPrecioMed.getText());
+            
+            Object item = comboLaboratorios.getSelectedItem();
+            int id_laboratorio = ((ComboItem)item).getKey();
+            
+            Laboratorio labo = new Laboratorio();
+            labo.setCodigo(id_laboratorio);
+            
+            boolean vigencia = (boolean) cbVigenciaMed.isSelected();
+            
+            
+            Medicamento medi = new Medicamento(nombre, precio, vigencia, labo ,componentes);
+
+            if(this.accionMed){
+                MedicamentoServicio.crearMedicamento(medi);
+            }    
+            else{
+                //pa.setCodigo(this.prin.getCodigo());
+                //PrincipioActivoServicio.actualizarPrincipioActivo(pa);
+            }
+
+            this.cargarDataTablaMedicamentos();
+            this.limpiarPanMed();
+            this.setPanelEnabled(panDataMed,false);
+        }
     }//GEN-LAST:event_btnAceptarMedActionPerformed
 
     private void btnCancelarMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarMedActionPerformed
@@ -1130,7 +1213,16 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarMedActionPerformed
 
     private void btnAgregarComActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarComActionPerformed
-        // TODO add your handling code here:
+            Object item = comboPrincipio.getSelectedItem();
+        
+            int codigo = ((ComboItem)item).getKey();
+            String activo = ((ComboItem)item).getValue();
+            String concentracion = txtConcentracion.getText();
+            boolean vigencia = cbVigenciaCom.isSelected();
+            
+            Object[] data = {codigo, activo, concentracion ,vigencia};
+
+            modelComponentes.addRow(data);
     }//GEN-LAST:event_btnAgregarComActionPerformed
 
 
@@ -1153,6 +1245,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         comboPrincipio.setSelectedIndex(0);
         txtConcentracion.setText("");
         cbVigenciaCom.setSelected(false);
+        modelComponentes.setRowCount(0);
     }
     
     /**
@@ -1241,7 +1334,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel panelContenedor;
     private javax.swing.JPanel panelLaboratorios;
     private javax.swing.JPanel panelMedicamentos;
-    private javax.swing.JTable tablaComponentes;
+    private javax.swing.JTable tbComponentes;
     private javax.swing.JTable tbLaboratorios;
     private javax.swing.JTable tbMedicamentos;
     private javax.swing.JTable tbPrincipios;

@@ -15,6 +15,18 @@ public class Medicamento {
     
     private Laboratorio laboratorio;
     private List<Componente> componentes;
+
+    public Medicamento(String nombre, float precio, boolean vigente, Laboratorio laboratorio ,List<Componente> componentes) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.laboratorio = laboratorio;
+        this.vigente = vigente;
+        this.componentes = componentes;
+    }
+
+    public Medicamento() {
+    }
+    
     
     public int getCodigo() {
         return codigo;

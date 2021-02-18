@@ -17,4 +17,12 @@ public class MedicamentoServicio {
        }
     }
     
+    public static void crearMedicamento(Medicamento medicamento){
+       try {
+           MedicamentoRepositorio.crearMedicamento(medicamento);
+       } catch (Exception e) {
+           throw e;
+       }
+    }
+    
 }
