@@ -14,8 +14,8 @@ public class ComponenteRepositorio {
     public static void crearComponente(Componente com, int medicamento){
         try {
             List<Object> values = Arrays.asList(
-                    medicamento,
                     com.getPrincipio().getCodigo(),
+                    medicamento,
                     com.getConcentracion(),
                     com.isVigente()
             );

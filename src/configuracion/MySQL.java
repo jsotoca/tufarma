@@ -35,6 +35,10 @@ public class MySQL {
         if(instance == null) instance = new MySQL();
         return instance;
     }
+    
+    public static Connection getConnection() {
+        return getInstance().conn;
+    }
 
     public static ResultSet executeQuery(String query, List<String> values){
         Statement stm;

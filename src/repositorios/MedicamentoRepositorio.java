@@ -1,6 +1,7 @@
 package repositorios;
 
 import configuracion.MySQL;
+import entidades.Componente;
 import java.util.List;
 import entidades.Medicamento;
 import java.sql.ResultSet;
@@ -34,6 +35,7 @@ public class MedicamentoRepositorio {
     
     public static void crearMedicamento(Medicamento medicamento){
         try {
+            //MySQL.getConnection().setAutoCommit(false);
             List<Object> values = Arrays.asList(
                     medicamento.getNombre(),
                     medicamento.getPrecio(), 
@@ -41,7 +43,19 @@ public class MedicamentoRepositorio {
                     medicamento.isVigente()
             );
             MySQL.executeUpdate("INSERT INTO medicamento(nombre, precio, laboratorio, vigencia) VALUES(?, ?, ?, ?)", values);
-        } catch (Exception e) {
+            
+            ResultSet rs = MySQL.executeQuery("SELECT LAST_INSERT_ID();", null);
+            
+            if (rs.next()) {
+                int id_medicamento = rs.getInt(1);
+                
+                for (Componente componente : medicamento.getComponentes()) {
+                    ComponenteRepositorio.crearComponente(componente, id_medicamento);
+                }
+            }
+            //MySQL.getConnection().commit();
+        } catch (SQLException e) {
+            //MySQL.getConnection().rollback();
             System.out.println(e);
         }
     }
