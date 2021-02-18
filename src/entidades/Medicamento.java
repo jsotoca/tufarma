@@ -10,7 +10,7 @@ public class Medicamento {
     private int codigo;
     
     private String nombre;
-    private double precio;
+    private float precio;
     private boolean vigente;
     
     private Laboratorio laboratorio;
@@ -32,11 +32,11 @@ public class Medicamento {
         this.nombre = nombre;
     }
 
-    public double getPrecio() {
+    public float getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(float precio) {
         this.precio = precio;
     }
 

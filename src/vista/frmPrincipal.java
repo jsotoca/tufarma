@@ -1,12 +1,15 @@
 package vista;
 
 import entidades.Laboratorio;
+import entidades.Medicamento;
 import entidades.PrincipioActivo;
+import helpers.ComboItem;
 import java.awt.Component;
 import servicios.LaboratorioServicio;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import javax.swing.JPanel;
+import servicios.MedicamentoServicio;
 import servicios.PrincipioActivoServicio;
 /**
  *
@@ -16,8 +19,10 @@ public class frmPrincipal extends javax.swing.JFrame {
     
     boolean accionLab;
     boolean accionPrin;
+    boolean accionMed;
     Laboratorio lab = null;
     PrincipioActivo prin = null;
+    Medicamento med = null;
     
     DefaultTableModel modelLaboratorios = new DefaultTableModel(){
         @Override
@@ -51,7 +56,23 @@ public class frmPrincipal extends javax.swing.JFrame {
                 }
         }
     };
-
+    DefaultTableModel modelMedicamentos = new DefaultTableModel(){
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            switch (columnIndex) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return String.class;
+                    case 3:
+                        return Boolean.class;
+                    default:
+                        return Boolean.class;
+                }
+        }
+    };
     /**
      * Creates new form frmPrincipal
      */
@@ -60,11 +81,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         this.inicializarPaneles();
         this.setLocationRelativeTo(null);
         this.cargarTablas();
+        this.cargarCombos();
     }
     
     private void inicializarPaneles(){
         this.setPanelEnabled(panDataLab, false);
         this.setPanelEnabled(panDataPrin,false);
+        this.setPanelEnabled(panDataMed,false);
     }
     
     private void setPanelEnabled(JPanel panel, Boolean isEnabled) {
@@ -116,9 +139,28 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
     }
     
+    private void cargarDataTablaMedicamentos(){
+        List <Medicamento> medicamentos = MedicamentoServicio.listarMedicamentos();
+        
+        modelMedicamentos.setRowCount(0);
+        
+        for (Medicamento medi : medicamentos) {
+            
+            int codigo = medi.getCodigo();
+            String nombre = medi.getNombre();
+            Float precio = medi.getPrecio();
+            boolean vigencia = medi.isVigente();
+            
+            Object[] data = {codigo, nombre, precio ,vigencia};
+
+            modelMedicamentos.addRow(data);
+        }
+    }
+    
     private void cargarTablas(){
         this.cargarTablaLaboratorios();
         this.cargarTablaPrincipios();
+        this.cargarTablaMedicamentos();
     }
     
     public void cargarTablaLaboratorios(){
@@ -145,7 +187,44 @@ public class frmPrincipal extends javax.swing.JFrame {
         this.tbPrincipios.setModel(modelPrincipios);
         
     }
+    
+    public void cargarTablaMedicamentos(){
+        
+        modelMedicamentos.addColumn("id");        
+        modelMedicamentos.addColumn("nombre");
+        modelMedicamentos.addColumn("precio");
+        modelMedicamentos.addColumn("vigencia");
 
+        this.cargarDataTablaMedicamentos();
+        
+        this.tbMedicamentos.setModel(modelMedicamentos);
+        
+    }
+
+    private void cargarCombos(){
+        this.cargarComboLaboratorios();
+        this.cargarComboPrincipiosActivos();
+    }
+    
+    private void cargarComboLaboratorios(){
+        List <Laboratorio> laboratorios = LaboratorioServicio.listarLaboratorios();
+        for (Laboratorio laboratorio : laboratorios) {
+            int key = laboratorio.getCodigo();
+            String value = laboratorio.getNombre();
+            this.comboLaboratorios.addItem(new ComboItem(key,value));
+        }
+    }
+    
+    
+    private void cargarComboPrincipiosActivos(){
+        List <PrincipioActivo> principios = PrincipioActivoServicio.listarPrincipioActivos();
+        for (PrincipioActivo prin : principios) {
+            int key = prin.getCodigo();
+            String value = prin.getNombre();
+            this.comboPrincipio.addItem(new ComboItem(key,value));
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -406,13 +485,9 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jLabel5.setText("Precio:");
 
-        comboLaboratorios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel6.setText("Lab:");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Composición", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
-
-        comboPrincipio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel7.setText("Principio Activo:");
 
@@ -1045,7 +1120,9 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jScrollPane4seleccionarColumna
 
     private void btnNuevoMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoMedActionPerformed
-        // TODO add your handling code here:
+        this.accionMed = true;
+        this.limpiarPanMed();
+        this.setPanelEnabled(panDataMed,true);
     }//GEN-LAST:event_btnNuevoMedActionPerformed
 
     private void btnModificarMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarMedActionPerformed
@@ -1066,6 +1143,16 @@ public class frmPrincipal extends javax.swing.JFrame {
         txtNombrePrin.setText("");
         txtDescripcionPrin.setText("");
         cbVigenciaPrin.setSelected(false);
+    }
+    
+    private void limpiarPanMed(){
+        txtNombreMed.setText("");
+        txtPrecioMed.setText("");
+        cbVigenciaMed.setSelected(false);
+        comboLaboratorios.setSelectedIndex(0);
+        comboPrincipio.setSelectedIndex(0);
+        txtConcentracion.setText("");
+        cbVigenciaCom.setSelected(false);
     }
     
     /**
@@ -1122,8 +1209,8 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JCheckBox cbVigenciaLab;
     private javax.swing.JCheckBox cbVigenciaMed;
     private javax.swing.JCheckBox cbVigenciaPrin;
-    private javax.swing.JComboBox<String> comboLaboratorios;
-    private javax.swing.JComboBox<String> comboPrincipio;
+    private javax.swing.JComboBox<ComboItem> comboLaboratorios;
+    private javax.swing.JComboBox<ComboItem> comboPrincipio;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
