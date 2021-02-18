@@ -33,10 +33,10 @@ public class PrincipioActivoRepositorio {
         return principios_activos;
     }
     
-    public static void crearPrincipioActivo(PrincipioActivo lab){
+    public static void crearPrincipioActivo(PrincipioActivo pa){
         try {
-            List<Object> values = Arrays.asList(lab.getNombre(),lab.isVigente());
-            MySQL.executeUpdate("INSERT INTO laboratorio(nombre, vigencia) VALUES(?, ?)", values);
+            List<Object> values = Arrays.asList(pa.getNombre(),pa.getDescripcion(),pa.isVigente());
+            MySQL.executeUpdate("INSERT INTO principio_activo(nombre, descripcion, vigencia) VALUES(?, ?, ?)", values);
         } catch (Exception e) {
             System.out.println(e);
         }

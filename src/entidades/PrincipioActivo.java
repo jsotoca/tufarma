@@ -10,6 +10,23 @@ public class PrincipioActivo {
     private String descripcion;
     private boolean vigente;
 
+    public PrincipioActivo() {
+    }
+    
+    public PrincipioActivo(int codigo, String nombre, String descripcion, boolean vigente) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.vigente = vigente;
+    }
+
+    public PrincipioActivo(String nombre, String descripcion, boolean vigente) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.vigente = vigente;
+    }
+    
+
     public int getCodigo() {
         return codigo;
     }

@@ -14,8 +14,11 @@ import servicios.PrincipioActivoServicio;
  */
 public class frmPrincipal extends javax.swing.JFrame {
     
-    boolean accion;
+    boolean accionLab;
+    boolean accionPrin;
     Laboratorio lab = null;
+    PrincipioActivo prin = null;
+    
     DefaultTableModel modelLaboratorios = new DefaultTableModel(){
         @Override
         public Class<?> getColumnClass(int columnIndex) {
@@ -61,6 +64,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     
     private void inicializarPaneles(){
         this.setPanelEnabled(panDataLab, false);
+        this.setPanelEnabled(panDataPrin,false);
     }
     
     private void setPanelEnabled(JPanel panel, Boolean isEnabled) {
@@ -662,7 +666,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_seleccionarColumna
 
     private void btnNuevoLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoLabActionPerformed
-        this.accion = true;
+        this.accionLab = true;
         this.limpiarPanLab();
         this.setPanelEnabled(panDataLab,true);
     }//GEN-LAST:event_btnNuevoLabActionPerformed
@@ -673,7 +677,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         boolean vigencia = (boolean) cbVigenciaLab.isSelected();
         Laboratorio labo = new Laboratorio(nombre,vigencia);
         
-        if(this.accion){
+        if(this.accionLab){
             LaboratorioServicio.crearLaboratorio(labo);
         }    
         else{
@@ -693,7 +697,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarLabActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        this.accion = false;
+        this.accionLab = false;
         this.limpiarPanLab();
         txtNombreLab.setText(this.lab.getNombre());
         cbVigenciaLab.setSelected(this.lab.isVigente());
@@ -705,11 +709,27 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnAceptarPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarPrinActionPerformed
-        // TODO add your handling code here:
+        String nombre = this.txtNombrePrin.getText();
+        String descripcion = this.txtDescripcionPrin.getText();
+        boolean vigencia = (boolean) cbVigenciaPrin.isSelected();
+        PrincipioActivo pa = new PrincipioActivo(nombre, descripcion, vigencia);
+        
+        if(this.accionPrin){
+            PrincipioActivoServicio.crearPrincipioActivo(pa);
+        }    
+        else{
+            /*labo.setCodigo(this.lab.getCodigo());
+            LaboratorioServicio.actualizarLaboratorio(labo);*/
+        }
+            
+        this.cargarDataTablaPrincipios();
+        this.limpiarPanPrin();
+        this.setPanelEnabled(panDataPrin,false);
     }//GEN-LAST:event_btnAceptarPrinActionPerformed
 
     private void btnCancelarPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarPrinActionPerformed
-        // TODO add your handling code here:
+        this.limpiarPanPrin();
+        this.setPanelEnabled(panDataPrin,false);
     }//GEN-LAST:event_btnCancelarPrinActionPerformed
 
     private void tbPrincipiosseleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPrincipiosseleccionarColumna
@@ -721,7 +741,9 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jScrollPane3seleccionarColumna
 
     private void btnNuevoPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPrinActionPerformed
-        // TODO add your handling code here:
+        this.accionPrin = true;
+        this.limpiarPanPrin();
+        this.setPanelEnabled(panDataPrin,true);
     }//GEN-LAST:event_btnNuevoPrinActionPerformed
 
     private void btnModificarPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarPrinActionPerformed
@@ -736,6 +758,12 @@ public class frmPrincipal extends javax.swing.JFrame {
     private void limpiarPanLab(){
         txtNombreLab.setText("");
         cbVigenciaLab.setSelected(false);
+    }
+    
+    private void limpiarPanPrin(){
+        txtNombrePrin.setText("");
+        txtDescripcionPrin.setText("");
+        cbVigenciaPrin.setSelected(false);
     }
     
     /**
