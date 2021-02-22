@@ -33,6 +33,26 @@ public class MedicamentoRepositorio {
         return medicamentos;
     }
     
+    public static List<Medicamento> buscarMedicamentosSimilares(int id_medicamento){
+        List<Medicamento> medicamentos = new ArrayList<>();
+        String query = "call buscarMedicamentos(" + id_medicamento + ")";
+        try {
+            
+            ResultSet rs = MySQL.executeQuery(query, null);
+            while(rs.next()) {
+                Medicamento medicamento = new Medicamento();
+                medicamento.setCodigo(rs.getInt(1));
+                medicamento.setNombre(rs.getString(2));
+                medicamento.setPrecio(rs.getFloat(3));
+                medicamento.setVigente(rs.getBoolean(4));
+                medicamentos.add(medicamento);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return medicamentos;
+    }
+    
     public static void crearMedicamento(Medicamento medicamento){
         try {
             //MySQL.getConnection().setAutoCommit(false);

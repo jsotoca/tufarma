@@ -17,6 +17,14 @@ public class MedicamentoServicio {
        }
     }
     
+    public static List<Medicamento> listarMedicamentosSimilares(int id_medicamento){
+       try {
+           return MedicamentoRepositorio.buscarMedicamentosSimilares(id_medicamento);
+       } catch (Exception e) {
+           throw e;
+       }
+    }
+    
     public static void crearMedicamento(Medicamento medicamento){
        try {
            MedicamentoRepositorio.crearMedicamento(medicamento);

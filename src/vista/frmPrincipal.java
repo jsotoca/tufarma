@@ -76,6 +76,23 @@ public class frmPrincipal extends javax.swing.JFrame {
                 }
         }
     };
+    DefaultTableModel modelMedicamentosSimilares = new DefaultTableModel(){
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            switch (columnIndex) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return String.class;
+                    case 3:
+                        return Boolean.class;
+                    default:
+                        return Boolean.class;
+                }
+        }
+    };
     DefaultTableModel modelComponentes = new DefaultTableModel(){
         @Override
         public Class<?> getColumnClass(int columnIndex) {
@@ -176,11 +193,29 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
     }
     
+    private void cargarDataTablaMedicamentosSimilares(){
+        List <Medicamento> medicamentos = MedicamentoServicio.listarMedicamentosSimilares(this.med.getCodigo());
+        
+        modelMedicamentosSimilares.setRowCount(0);
+        
+        for (Medicamento medi : medicamentos) {
+            int codigo = medi.getCodigo();
+            String nombre = medi.getNombre();
+            Float precio = medi.getPrecio();
+            boolean vigencia = medi.isVigente();
+            
+            Object[] data = {codigo, nombre, precio ,vigencia};
+
+            modelMedicamentosSimilares.addRow(data);
+        }
+    }
+    
     private void cargarTablas(){
         this.cargarTablaLaboratorios();
         this.cargarTablaPrincipios();
         this.cargarTablaMedicamentos();
         this.cargarTablaComponentes();
+        this.cargarTablaMedicamentosSimilares();
     }
     
     public void cargarTablaLaboratorios(){
@@ -218,6 +253,18 @@ public class frmPrincipal extends javax.swing.JFrame {
         this.cargarDataTablaMedicamentos();
         
         this.tbMedicamentos.setModel(modelMedicamentos);
+        
+    }
+    
+    public void cargarTablaMedicamentosSimilares(){
+        
+        modelMedicamentosSimilares.addColumn("id");        
+        modelMedicamentosSimilares.addColumn("nombre");
+        modelMedicamentosSimilares.addColumn("precio");
+        modelMedicamentosSimilares.addColumn("vigencia");
+
+        
+        this.tbSimilares.setModel(modelMedicamentosSimilares);
         
     }
     
@@ -306,6 +353,10 @@ public class frmPrincipal extends javax.swing.JFrame {
         tbMedicamentos = new javax.swing.JTable();
         btnNuevoMed = new javax.swing.JButton();
         btnModificarMed = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
+        panSimilar = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tbSimilares = new javax.swing.JTable();
         panelActivos = new javax.swing.JPanel();
         panDataPrin = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -588,8 +639,8 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnAgregarCom)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panDataMedLayout = new javax.swing.GroupLayout(panDataMed);
@@ -646,12 +697,12 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(cbVigenciaMed)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(panDataMedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptarMed)
                     .addComponent(btnCancelarMed))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado de Medicamentos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
@@ -694,6 +745,16 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnBuscar.setBackground(new java.awt.Color(0, 153, 0));
+        btnBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setText("Buscar medicamentos similares");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -706,7 +767,8 @@ public class frmPrincipal extends javax.swing.JFrame {
                         .addComponent(btnNuevoMed)
                         .addGap(18, 18, 18)
                         .addComponent(btnModificarMed)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBuscar)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -716,8 +778,51 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevoMed)
-                    .addComponent(btnModificarMed))
+                    .addComponent(btnModificarMed)
+                    .addComponent(btnBuscar))
                 .addGap(0, 11, Short.MAX_VALUE))
+        );
+
+        panSimilar.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Medicamentos Similares", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
+
+        jScrollPane5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane5seleccionarColumna(evt);
+            }
+        });
+
+        tbSimilares.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tbSimilares.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbSimilaresseleccionarColumna(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tbSimilares);
+
+        javax.swing.GroupLayout panSimilarLayout = new javax.swing.GroupLayout(panSimilar);
+        panSimilar.setLayout(panSimilarLayout);
+        panSimilarLayout.setHorizontalGroup(
+            panSimilarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panSimilarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panSimilarLayout.setVerticalGroup(
+            panSimilarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panSimilarLayout.createSequentialGroup()
+                .addContainerGap(43, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout panelMedicamentosLayout = new javax.swing.GroupLayout(panelMedicamentos);
@@ -728,7 +833,9 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(panDataMed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelMedicamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panSimilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         panelMedicamentosLayout.setVerticalGroup(
@@ -739,6 +846,8 @@ public class frmPrincipal extends javax.swing.JFrame {
                     .addComponent(panDataMed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelMedicamentosLayout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(panSimilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -1195,7 +1304,12 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarMedActionPerformed
 
     private void tbMedicamentosseleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMedicamentosseleccionarColumna
-        // TODO add your handling code here:
+        int codigo = (int) tbMedicamentos.getValueAt(tbMedicamentos.getSelectedRow(), 0);
+        String nombre = tbMedicamentos.getValueAt(tbMedicamentos.getSelectedRow(), 1).toString();
+        float precio = (float) tbMedicamentos.getValueAt(tbMedicamentos.getSelectedRow(), 2);
+        boolean vigencia = (boolean) tbMedicamentos.getValueAt(tbMedicamentos.getSelectedRow(), 3);
+        
+        this.med = new Medicamento(codigo, nombre, precio, vigencia);
     }//GEN-LAST:event_tbMedicamentosseleccionarColumna
 
     private void jScrollPane4seleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane4seleccionarColumna
@@ -1224,6 +1338,18 @@ public class frmPrincipal extends javax.swing.JFrame {
 
             modelComponentes.addRow(data);
     }//GEN-LAST:event_btnAgregarComActionPerformed
+
+    private void tbSimilaresseleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSimilaresseleccionarColumna
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbSimilaresseleccionarColumna
+
+    private void jScrollPane5seleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane5seleccionarColumna
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane5seleccionarColumna
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        this.cargarDataTablaMedicamentosSimilares();
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
 
     private void limpiarPanLab(){
@@ -1288,6 +1414,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnAceptarMed;
     private javax.swing.JButton btnAceptarPrin;
     private javax.swing.JButton btnAgregarCom;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelarLab;
     private javax.swing.JButton btnCancelarMed;
     private javax.swing.JButton btnCancelarPrin;
@@ -1321,6 +1448,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JMenu menuAdministracion;
     private javax.swing.JMenuBar menuBarPrincipal;
     private javax.swing.JMenuItem menuLaboratorio;
@@ -1330,6 +1458,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel panDataLab;
     private javax.swing.JPanel panDataMed;
     private javax.swing.JPanel panDataPrin;
+    private javax.swing.JPanel panSimilar;
     private javax.swing.JPanel panelActivos;
     private javax.swing.JPanel panelContenedor;
     private javax.swing.JPanel panelLaboratorios;
@@ -1338,6 +1467,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable tbLaboratorios;
     private javax.swing.JTable tbMedicamentos;
     private javax.swing.JTable tbPrincipios;
+    private javax.swing.JTable tbSimilares;
     private javax.swing.JTextField txtConcentracion;
     private javax.swing.JTextField txtDescripcionPrin;
     private javax.swing.JTextField txtNombreLab;

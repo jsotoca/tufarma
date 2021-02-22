@@ -40,7 +40,7 @@ public class MySQL {
         return getInstance().conn;
     }
 
-    public static ResultSet executeQuery(String query, List<String> values){
+    public static ResultSet executeQuery(String query, List<Object> values){
         Statement stm;
         ResultSet rs = null;
         try {
