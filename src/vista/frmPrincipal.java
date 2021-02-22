@@ -193,6 +193,24 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
     }
     
+    
+    private void cargarDataTablaComponentes(){
+        List <Componente> componentes = MedicamentoServicio.buscarComponentesPorMedicamento(this.med.getCodigo());
+        
+        modelComponentes.setRowCount(0);
+        
+        for (Componente com : componentes) {
+            int codigo = com.getPrincipio().getCodigo();
+            String principio = com.getPrincipio().getNombre();
+            String concentracion = com.getConcentracion();
+            boolean vigencia = com.isVigente();
+            
+            Object[] data = {codigo, principio, concentracion ,vigencia};
+
+            modelComponentes.addRow(data);
+        }
+    }
+    
     private void cargarDataTablaMedicamentosSimilares(){
         List <Medicamento> medicamentos = MedicamentoServicio.listarMedicamentosSimilares(this.med.getCodigo());
         
@@ -352,7 +370,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tbMedicamentos = new javax.swing.JTable();
         btnNuevoMed = new javax.swing.JButton();
-        btnModificarMed = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         panSimilar = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -738,13 +755,6 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnModificarMed.setText("Modificar");
-        btnModificarMed.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarMedActionPerformed(evt);
-            }
-        });
-
         btnBuscar.setBackground(new java.awt.Color(0, 153, 0));
         btnBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
@@ -765,8 +775,6 @@ public class frmPrincipal extends javax.swing.JFrame {
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(btnNuevoMed)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnModificarMed)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnBuscar)))
                 .addContainerGap())
@@ -778,7 +786,6 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevoMed)
-                    .addComponent(btnModificarMed)
                     .addComponent(btnBuscar))
                 .addGap(0, 11, Short.MAX_VALUE))
         );
@@ -1300,7 +1307,8 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAceptarMedActionPerformed
 
     private void btnCancelarMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarMedActionPerformed
-        // TODO add your handling code here:
+        this.limpiarPanMed();
+        this.setPanelEnabled(panDataMed,false);
     }//GEN-LAST:event_btnCancelarMedActionPerformed
 
     private void tbMedicamentosseleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMedicamentosseleccionarColumna
@@ -1310,6 +1318,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         boolean vigencia = (boolean) tbMedicamentos.getValueAt(tbMedicamentos.getSelectedRow(), 3);
         
         this.med = new Medicamento(codigo, nombre, precio, vigencia);
+        this.cargarDataTablaComponentes();
     }//GEN-LAST:event_tbMedicamentosseleccionarColumna
 
     private void jScrollPane4seleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane4seleccionarColumna
@@ -1321,10 +1330,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         this.limpiarPanMed();
         this.setPanelEnabled(panDataMed,true);
     }//GEN-LAST:event_btnNuevoMedActionPerformed
-
-    private void btnModificarMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarMedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnModificarMedActionPerformed
 
     private void btnAgregarComActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarComActionPerformed
             Object item = comboPrincipio.getSelectedItem();
@@ -1419,7 +1424,6 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelarMed;
     private javax.swing.JButton btnCancelarPrin;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnModificarMed;
     private javax.swing.JButton btnModificarPrin;
     private javax.swing.JButton btnNuevoLab;
     private javax.swing.JButton btnNuevoMed;

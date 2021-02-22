@@ -1,7 +1,9 @@
 package servicios;
 
+import entidades.Componente;
 import java.util.List;
 import entidades.Medicamento;
+import repositorios.ComponenteRepositorio;
 import repositorios.MedicamentoRepositorio;
 /**
  *
@@ -28,6 +30,14 @@ public class MedicamentoServicio {
     public static void crearMedicamento(Medicamento medicamento){
        try {
            MedicamentoRepositorio.crearMedicamento(medicamento);
+       } catch (Exception e) {
+           throw e;
+       }
+    }
+    
+    public static List<Componente> buscarComponentesPorMedicamento(int id_medicamento){
+        try {
+           return ComponenteRepositorio.buscarComponentesPorMedicamento(id_medicamento);
        } catch (Exception e) {
            throw e;
        }
