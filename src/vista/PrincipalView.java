@@ -2,12 +2,8 @@
 
 package vista;
 
-import java.beans.PropertyVetoException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import vista.LaboratorioView;
 /**
  *
  * @author Juan Antonio Soto Cabrera <https://github.com/jsotoca/>
@@ -29,7 +25,7 @@ public class PrincipalView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panContenedor = new javax.swing.JPanel();
+        panelContenedor = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         meLaboratorios = new javax.swing.JMenuItem();
@@ -39,14 +35,14 @@ public class PrincipalView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout panContenedorLayout = new javax.swing.GroupLayout(panContenedor);
-        panContenedor.setLayout(panContenedorLayout);
-        panContenedorLayout.setHorizontalGroup(
-            panContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panelContenedorLayout = new javax.swing.GroupLayout(panelContenedor);
+        panelContenedor.setLayout(panelContenedorLayout);
+        panelContenedorLayout.setHorizontalGroup(
+            panelContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1080, Short.MAX_VALUE)
         );
-        panContenedorLayout.setVerticalGroup(
-            panContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelContenedorLayout.setVerticalGroup(
+            panelContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1059, Short.MAX_VALUE)
         );
 
@@ -77,11 +73,11 @@ public class PrincipalView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -90,7 +86,8 @@ public class PrincipalView extends javax.swing.JFrame {
     private void meLaboratoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meLaboratoriosActionPerformed
         try {
             LaboratorioView lab = LaboratorioView.getInstance();
-            panContenedor.add(lab);
+            panelContenedor.add(lab);
+            lab.setLocation((panelContenedor.getWidth()-lab.getWidth())/2, (panelContenedor.getHeight()-lab.getHeight())/2);
             lab.show();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "No se abrir el panel de labotatorios");
@@ -139,7 +136,7 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JMenuItem meLaboratorios;
     private javax.swing.JMenuItem meMedicamentos;
     private javax.swing.JMenuItem mePrincipios;
-    private javax.swing.JPanel panContenedor;
+    private javax.swing.JPanel panelContenedor;
     // End of variables declaration//GEN-END:variables
 
 }

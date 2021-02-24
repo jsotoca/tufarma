@@ -2,10 +2,12 @@ package vista;
 
 import entidades.Laboratorio;
 import helpers.ColumnItem;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import servicios.LaboratorioServicio;
 
 /**
@@ -15,8 +17,10 @@ import servicios.LaboratorioServicio;
 public class LaboratorioView extends javax.swing.JInternalFrame {
 
     private List<Laboratorio> laboratorios;;
-    private final List<ColumnItem> columnItems;
-    private final DataTableModel laboratorioModel;
+    private List<ColumnItem> columnItems;
+    private DataTableModel laboratorioModel;
+    private Laboratorio laboratorio;
+    private boolean bandera;
     
     private static LaboratorioView instance;
     
@@ -24,18 +28,14 @@ public class LaboratorioView extends javax.swing.JInternalFrame {
      * Creates new form LabotatorioView
      */
     private LaboratorioView() {
-        columnItems = Arrays.asList(
-            new ColumnItem("codigo",String.class),
-            new ColumnItem("nombre",String.class),
-            new ColumnItem("vigente",Boolean.class)
-        );
-        
-        laboratorioModel = new DataTableModel(columnItems);
+        initModel();
         
         Dimension screenSize = new Dimension(850, 560);
         setPreferredSize(screenSize);
         
         initComponents();
+        
+        setPanelEnabled(panDataLab,false);
         
         listarLaboratorios();
     }
@@ -43,6 +43,29 @@ public class LaboratorioView extends javax.swing.JInternalFrame {
     public static LaboratorioView getInstance() {
         if(instance == null) instance = new LaboratorioView();
         return instance;
+    }
+    
+    private void initModel(){
+        columnItems = Arrays.asList(
+            new ColumnItem("codigo",String.class),
+            new ColumnItem("nombre",String.class),
+            new ColumnItem("vigente",Boolean.class)
+        );
+        
+        laboratorioModel = new DataTableModel(columnItems);
+    }
+    
+    private void setPanelEnabled(JPanel panel, Boolean isEnabled) {
+        panel.setEnabled(isEnabled);
+
+            Component[] components = panel.getComponents();
+
+        for (Component component : components) {
+            if ("javax.swing.JPanel".equals(component.getClass().getName())) {
+                setPanelEnabled((JPanel) component, isEnabled);
+            }
+            component.setEnabled(isEnabled);
+        }
     }
     
     private void listarLaboratorios() {
@@ -54,6 +77,11 @@ public class LaboratorioView extends javax.swing.JInternalFrame {
         }
     }
     
+    private void limpiarDatos(){
+        txtNombreLab.setText("");
+        txtNombreLab.requestFocus();
+        cbVigenciaLab.setSelected(false);
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,12 +159,6 @@ public class LaboratorioView extends javax.swing.JInternalFrame {
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado de Laboratorios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
-
-        jScrollPane2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jScrollPane2seleccionarColumna(evt);
-            }
-        });
 
         tbLaboratorios.setModel(this.laboratorioModel);
         tbLaboratorios.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -225,31 +247,53 @@ public class LaboratorioView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarLabActionPerformed
-
+        String nombre = txtNombreLab.getText();
+        boolean vigencia = (boolean) cbVigenciaLab.isSelected();
+        Laboratorio lab = new Laboratorio(nombre,vigencia);
+        
+        if (bandera) {
+           LaboratorioServicio.crearLaboratorio(lab); 
+        } else {
+           lab.setCodigo(laboratorio.getCodigo());
+           LaboratorioServicio.actualizarLaboratorio(lab);
+        }
+        listarLaboratorios();
+        limpiarDatos();
+        setPanelEnabled(panDataLab,false);
     }//GEN-LAST:event_btnAceptarLabActionPerformed
 
     private void btnCancelarLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarLabActionPerformed
-
+        setPanelEnabled(panDataLab,false);
+        limpiarDatos();
     }//GEN-LAST:event_btnCancelarLabActionPerformed
 
     private void tbLaboratoriosseleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbLaboratoriosseleccionarColumna
-
+        int codigo = (int) tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 0);
+        String nombre = tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 1).toString();
+        boolean vigencia = (boolean) tbLaboratorios.getValueAt(tbLaboratorios.getSelectedRow(), 2);
+        
+        laboratorio = new Laboratorio(codigo, nombre, vigencia);
     }//GEN-LAST:event_tbLaboratoriosseleccionarColumna
 
-    private void jScrollPane2seleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane2seleccionarColumna
-
-    }//GEN-LAST:event_jScrollPane2seleccionarColumna
-
     private void btnNuevoLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoLabActionPerformed
-
+        bandera = true;
+        setPanelEnabled(panDataLab,true);
+        limpiarDatos();
+        
     }//GEN-LAST:event_btnNuevoLabActionPerformed
 
     private void btnModificarLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarLabActionPerformed
-
+        if(laboratorio != null){
+            bandera = false;
+            txtNombreLab.setText(laboratorio.getNombre());
+            cbVigenciaLab.setSelected(laboratorio.isVigente());
+            setPanelEnabled(panDataLab,true);
+        }
+        else JOptionPane.showMessageDialog(this, "Selecciona un labotatorio de la tabla de arriba, por favor.");
     }//GEN-LAST:event_btnModificarLabActionPerformed
 
     private void btnSalirLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirLabActionPerformed
-        this.dispose();
+        dispose();
     }//GEN-LAST:event_btnSalirLabActionPerformed
 
 
