@@ -16,7 +16,7 @@ import servicios.LaboratorioServicio;
  */
 public class LaboratorioView extends javax.swing.JInternalFrame {
 
-    private List<Laboratorio> laboratorios;;
+    private List<Laboratorio> laboratorios;
     private List<ColumnItem> columnItems;
     private DataTableModel laboratorioModel;
     private Laboratorio laboratorio;
