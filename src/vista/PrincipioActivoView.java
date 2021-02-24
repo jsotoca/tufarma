@@ -269,10 +269,18 @@ public class PrincipioActivoView extends javax.swing.JInternalFrame {
         PrincipioActivo prin = new PrincipioActivo(nombre, descripcion, vigencia);
 
         if (bandera) {
-            PrincipioActivoServicio.crearPrincipioActivo(prin);
+            try {
+                PrincipioActivoServicio.crearPrincipioActivo(prin);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "No se pudo guardar principio activo");
+            }
         } else {
             prin.setCodigo(principioActivo.getCodigo());
-            PrincipioActivoServicio.actualizarPrincipioActivo(prin);
+            try {
+                PrincipioActivoServicio.actualizarPrincipioActivo(prin);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "No se pudo actualizar principio activo");
+            }
         }
         listarPrincipiosActivos();
         limpiarDatos();

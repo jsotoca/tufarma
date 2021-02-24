@@ -252,10 +252,18 @@ public class LaboratorioView extends javax.swing.JInternalFrame {
         Laboratorio lab = new Laboratorio(nombre,vigencia);
         
         if (bandera) {
-           LaboratorioServicio.crearLaboratorio(lab); 
+            try {
+                LaboratorioServicio.crearLaboratorio(lab); 
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "No se pudo guardar laboratorio");
+            }
         } else {
            lab.setCodigo(laboratorio.getCodigo());
-           LaboratorioServicio.actualizarLaboratorio(lab);
+            try {
+                LaboratorioServicio.actualizarLaboratorio(lab);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "No se pudo guardar laboratorio");
+            }
         }
         listarLaboratorios();
         limpiarDatos();

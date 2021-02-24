@@ -40,7 +40,11 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
         initModels();
         initComponents();
         
-        //setPanelEnabled(panDataMed,false);
+        cbLaboratorio.setSelectedIndex(0);
+        cbPrincipioActivo.setSelectedIndex(0);
+
+        
+        setPanelEnabled(panDataMed,false);
         
         listarMedicamentos();
     }
@@ -186,6 +190,8 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
         });
 
         jLabel2.setText("Precio:");
+
+        spPrecio.setModel(new javax.swing.SpinnerNumberModel(0.0f, 0.0f, null, 1.0f));
 
         jLabel3.setText("Laboratorio:");
 
@@ -416,9 +422,9 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
     private void btnNuevoMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoMedActionPerformed
         /*int key = laboratorioModel.getkey(cbLaboratorio.getSelectedItem().toString());
         System.out.println(key);
-        bandera = true;
-        setPanelEnabled(panDataPrin,true);
-        limpiarDatos();*/
+        bandera = true;*/
+        setPanelEnabled(panDataMed,true);
+        limpiarDatos();
     }//GEN-LAST:event_btnNuevoMedActionPerformed
 
 
