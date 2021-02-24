@@ -4,7 +4,6 @@ import configuracion.MySQL;
 import entidades.Componente;
 import entidades.PrincipioActivo;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
  */
 public class ComponenteRepositorio {
     
-    public static void crearComponente(Componente com, int medicamento){
+    public static void crearComponente(Componente com, int medicamento) throws Exception {
         try {
             List<Object> values = Arrays.asList(
                     com.getPrincipio().getCodigo(),
@@ -25,11 +24,11 @@ public class ComponenteRepositorio {
             );
             MySQL.executeUpdate("INSERT INTO componente(id_principio_activo, id_medicamento, concentracion, vigencia) VALUES(?, ?, ?, ?)", values);
         } catch (Exception e) {
-            System.out.println(e);
+            throw e;
         }
     }
     
-    public static List<Componente> buscarComponentesPorMedicamento(int id_medicamento){
+    public static List<Componente> buscarComponentesPorMedicamento(int id_medicamento) throws Exception {
         List<Componente> componentes = new ArrayList<>();
         String query = "call buscarDetallesComponentes(" + id_medicamento + ")";
         try {
@@ -46,8 +45,8 @@ public class ComponenteRepositorio {
                 
                 componentes.add(componente);
             }
-        } catch (SQLException e) {
-            System.out.println(e);
+        } catch (Exception e) {
+            throw e;
         }
         return componentes;
     }

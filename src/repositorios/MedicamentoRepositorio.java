@@ -5,7 +5,6 @@ import entidades.Componente;
 import java.util.List;
 import entidades.Medicamento;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 /**
@@ -14,7 +13,7 @@ import java.util.Arrays;
  */
 public class MedicamentoRepositorio {
     
-    public static List<Medicamento> listarMedicamentos(){
+    public static List<Medicamento> listarMedicamentos() throws Exception {
         List<Medicamento> medicamentos = new ArrayList<>();
         try {
             
@@ -27,13 +26,13 @@ public class MedicamentoRepositorio {
                 medicamento.setVigente(rs.getBoolean(5));
                 medicamentos.add(medicamento);
             }
-        } catch (SQLException e) {
-            System.out.println(e);
+        } catch (Exception e) {
+            throw e;
         }
         return medicamentos;
     }
     
-    public static List<Medicamento> buscarMedicamentosSimilares(int id_medicamento){
+    public static List<Medicamento> buscarMedicamentosSimilares(int id_medicamento) throws Exception {
         List<Medicamento> medicamentos = new ArrayList<>();
         String query = "call buscar_medicamentos_iguales(" + id_medicamento + ")";
         try {
@@ -47,15 +46,14 @@ public class MedicamentoRepositorio {
                 medicamento.setVigente(rs.getBoolean(4));
                 medicamentos.add(medicamento);
             }
-        } catch (SQLException e) {
-            System.out.println(e);
+        } catch (Exception e) {
+            throw e;
         }
         return medicamentos;
     }
     
-    public static void crearMedicamento(Medicamento medicamento){
+    public static void crearMedicamento(Medicamento medicamento) throws Exception {
         try {
-            //MySQL.getConnection().setAutoCommit(false);
             List<Object> values = Arrays.asList(
                     medicamento.getNombre(),
                     medicamento.getPrecio(), 
@@ -73,10 +71,8 @@ public class MedicamentoRepositorio {
                     ComponenteRepositorio.crearComponente(componente, id_medicamento);
                 }
             }
-            //MySQL.getConnection().commit();
-        } catch (SQLException e) {
-            //MySQL.getConnection().rollback();
-            System.out.println(e);
+        } catch (Exception e) {
+            throw e;
         }
     }
 }

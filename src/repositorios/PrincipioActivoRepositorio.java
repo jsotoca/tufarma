@@ -3,7 +3,6 @@ package repositorios;
 import configuracion.MySQL;
 import entidades.PrincipioActivo;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
  */
 public class PrincipioActivoRepositorio {
     
-    public static List<PrincipioActivo> listarPrincipiosActivos(){
+    public static List<PrincipioActivo> listarPrincipiosActivos() throws Exception {
         List<PrincipioActivo> principios_activos = new ArrayList<>();
         try {
             
@@ -27,28 +26,27 @@ public class PrincipioActivoRepositorio {
                 principioActivo.setVigente(rs.getBoolean(4));
                 principios_activos.add(principioActivo);
             }
-        } catch (SQLException e) {
-            System.out.println(e);
+        } catch (Exception e) {
+            throw e;
         }
         return principios_activos;
     }
     
-    public static void crearPrincipioActivo(PrincipioActivo pa){
+    public static void crearPrincipioActivo(PrincipioActivo pa) throws Exception {
         try {
             List<Object> values = Arrays.asList(pa.getNombre(),pa.getDescripcion(),pa.isVigente());
             MySQL.executeUpdate("INSERT INTO principio_activo(nombre, descripcion, vigencia) VALUES(?, ?, ?)", values);
         } catch (Exception e) {
-            System.out.println(e);
+            throw e;
         }
     }
     
-    public static void actualizarPrincipioActivo(PrincipioActivo pa){
-        
+    public static void actualizarPrincipioActivo(PrincipioActivo pa) throws Exception {
         try {
             List<Object> values = Arrays.asList(pa.getNombre(),pa.getDescripcion(),pa.isVigente(),pa.getCodigo());
             MySQL.executeUpdate("UPDATE principio_activo set nombre = ?, descripcion = ?, vigencia = ? WHERE id_principio_activo = ?", values);
         } catch (Exception e) {
-            System.out.println(e);
+            throw e;
         }
     }
 }
