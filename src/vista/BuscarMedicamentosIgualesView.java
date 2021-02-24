@@ -1,85 +1,75 @@
 package vista;
-
 import java.util.List;
 import entidades.Medicamento;
-import entidades.Componente;
 import helpers.ColumnItem;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import servicios.MedicamentoServicio;
 
+
 /**
  *
  * @author Juan Antonio Soto Cabrera <https://github.com/jsotoca/>
  */
-public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
+public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
 
-    private List<Medicamento> medicamentos;
-    private List<Componente> componentes;
-    private DataTableModel medicamentoModel, componenteModel;
-    private List<ColumnItem> medicamentocolumnItems, componentescolumnItems;
+    private List<Medicamento> medicamentos, medicamentosIguales;
+    private DataTableModel medicamentoModel, medicamentosIgualesModel;
+    private List<ColumnItem> medicamentoColumnItems, medicamentosIgualesColumnItems;
     
-    private static ListadoMedicamentosView instance;
+    private static BuscarMedicamentosIgualesView instance;
     
     /**
-     * Creates new form ListadoMedicamentosView
+     * Creates new form BuscarMedicamentosIgualesView
      */
-    private ListadoMedicamentosView() {
+    private BuscarMedicamentosIgualesView() {
         initModels();
         initComponents();
         listarMedicamentos();
     }
-    
-    public static ListadoMedicamentosView getInstance() {
-        if(instance == null) instance = new ListadoMedicamentosView();
+
+    public static BuscarMedicamentosIgualesView getInstance() {
+        if(instance == null) instance = new BuscarMedicamentosIgualesView();
         return instance;
     }
     
     private void initModels(){
         initMedicamentoModel();
-        initComponenteModel();
+        initMedicamentosIgualesModel();
     }
     
     private void initMedicamentoModel(){
-        medicamentocolumnItems = Arrays.asList(
+        medicamentoColumnItems = Arrays.asList(
             new ColumnItem("codigo",String.class),
             new ColumnItem("nombre",String.class),
             new ColumnItem("precio",String.class),
             new ColumnItem("vigente",Boolean.class)
         );
         
-        medicamentoModel = new DataTableModel(medicamentocolumnItems);
+        medicamentoModel = new DataTableModel(medicamentoColumnItems);
     }
     
-    private void initComponenteModel(){
-        componentescolumnItems = Arrays.asList(
+    private void initMedicamentosIgualesModel(){
+        medicamentosIgualesColumnItems = Arrays.asList(
             new ColumnItem("codigo",String.class),
-            new ColumnItem("principio",String.class),
-            new ColumnItem("concentracion",String.class),
+            new ColumnItem("nombre",String.class),
+            new ColumnItem("precio",String.class),
             new ColumnItem("vigente",Boolean.class)
         );
         
-        componenteModel = new DataTableModel(componentescolumnItems);
+        medicamentosIgualesModel = new DataTableModel(medicamentosIgualesColumnItems);
     }
     
     private void listarMedicamentos() {
         try{
-            medicamentos = MedicamentoServicio.listarMedicamentosActivos();
+            medicamentos = MedicamentoServicio.listarMedicamentos();
             medicamentoModel.setValues(medicamentos);
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this, "No se pudo listar los laboratorios");
         }
     }
     
-    private void listarComponentes(int id_medicamento) {
-        try{
-            componentes = MedicamentoServicio.buscarComponentesPorMedicamento(id_medicamento);
-            componenteModel.setValues(componentes);
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(this, "No se pudo listar los componente");
-        }
-    }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,7 +84,7 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
         tbMedicamentos = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tbComponentes = new javax.swing.JTable();
+        tbMedicamentosEncontrados = new javax.swing.JTable();
         btnSalir = new javax.swing.JButton();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado de medicamentos"));
@@ -123,10 +113,10 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Composición del medicamento"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Medicamentos Iguales Encontrados"));
 
-        tbComponentes.setModel(this.componenteModel);
-        jScrollPane2.setViewportView(tbComponentes);
+        tbMedicamentosEncontrados.setModel(this.medicamentosIgualesModel);
+        jScrollPane2.setViewportView(tbMedicamentosEncontrados);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -134,7 +124,7 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -174,7 +164,7 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnSalir)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -182,7 +172,7 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
 
     private void tbMedicamentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMedicamentosMouseClicked
         int id_medicamento = (int) tbMedicamentos.getValueAt(tbMedicamentos.getSelectedRow(), 0);
-        listarComponentes(id_medicamento);
+        listarMedicamentosIguales(id_medicamento);
     }//GEN-LAST:event_tbMedicamentosMouseClicked
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -196,7 +186,17 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable tbComponentes;
     private javax.swing.JTable tbMedicamentos;
+    private javax.swing.JTable tbMedicamentosEncontrados;
     // End of variables declaration//GEN-END:variables
+
+    private void listarMedicamentosIguales(int id_medicamento) {
+        try{
+            medicamentosIguales = MedicamentoServicio.listarMedicamentosSimilares(id_medicamento);
+            if(medicamentosIguales.size() > 0) medicamentosIgualesModel.setValues(medicamentosIguales);
+            else JOptionPane.showMessageDialog(this, "No se encontraron medicamentos iguales");
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "No se pudo listar los laboratorios");
+        }
+    }
 }

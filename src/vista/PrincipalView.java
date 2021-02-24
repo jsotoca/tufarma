@@ -87,6 +87,11 @@ public class PrincipalView extends javax.swing.JFrame {
         jMenu2.add(meListadoMedicamento);
 
         meBusquedaMedicamentosIguales.setText("Búsqueda de medicamentos iguales");
+        meBusquedaMedicamentosIguales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                meBusquedaMedicamentosIgualesActionPerformed(evt);
+            }
+        });
         jMenu2.add(meBusquedaMedicamentosIguales);
 
         jMenuBar1.add(jMenu2);
@@ -150,6 +155,17 @@ public class PrincipalView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se puede abrir la ventana de listado de medicaments");
         }
     }//GEN-LAST:event_meListadoMedicamentoActionPerformed
+
+    private void meBusquedaMedicamentosIgualesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meBusquedaMedicamentosIgualesActionPerformed
+        try {
+            BuscarMedicamentosIgualesView bus = BuscarMedicamentosIgualesView.getInstance();
+            panelContenedor.add(bus);
+            bus.setLocation((panelContenedor.getWidth()-bus.getWidth())/2, (panelContenedor.getHeight()-bus.getHeight())/2);
+            bus.show();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "No se puede abrir la ventana de listado de medicaments");
+        }
+    }//GEN-LAST:event_meBusquedaMedicamentosIgualesActionPerformed
 
     /**
      * @param args the command line arguments

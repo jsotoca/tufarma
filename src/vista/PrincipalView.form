@@ -52,6 +52,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="B&#xfa;squeda de medicamentos iguales"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="meBusquedaMedicamentosIgualesActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
