@@ -67,7 +67,7 @@ public class DataTableModel extends AbstractTableModel {
             field.setAccessible(true);
             temp_value = field.get(object);
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e) {
-            temp_value = e;
+            temp_value = null;
         }
         
         return temp_value;

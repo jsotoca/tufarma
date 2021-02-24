@@ -65,6 +65,11 @@ public class PrincipalView extends javax.swing.JFrame {
         jMenu1.add(meMedicamentos);
 
         mePrincipios.setText("Principios Activos");
+        mePrincipios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mePrincipiosActionPerformed(evt);
+            }
+        });
         jMenu1.add(mePrincipios);
 
         jMenuBar1.add(jMenu1);
@@ -101,6 +106,17 @@ public class PrincipalView extends javax.swing.JFrame {
 
     private void meMedicamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meMedicamentosActionPerformed
         try {
+            MedicamentoView med = MedicamentoView.getInstance();
+            panelContenedor.add(med);
+            med.setLocation((panelContenedor.getWidth()-med.getWidth())/2, (panelContenedor.getHeight()-med.getHeight())/2);
+            med.show();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "No se puede abrir la ventana de medicamentos");
+        }
+    }//GEN-LAST:event_meMedicamentosActionPerformed
+
+    private void mePrincipiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mePrincipiosActionPerformed
+        try {
             PrincipioActivoView prin = PrincipioActivoView.getInstance();
             panelContenedor.add(prin);
             prin.setLocation((panelContenedor.getWidth()-prin.getWidth())/2, (panelContenedor.getHeight()-prin.getHeight())/2);
@@ -108,7 +124,7 @@ public class PrincipalView extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "No se puede abrir la ventana de labotatorios");
         }
-    }//GEN-LAST:event_meMedicamentosActionPerformed
+    }//GEN-LAST:event_mePrincipiosActionPerformed
 
     /**
      * @param args the command line arguments

@@ -59,7 +59,7 @@
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Laboratorio">
+            <TitledBorder title="Principio Activo">
               <Font PropertyName="font" name="Segoe UI" size="12" style="1"/>
               <Color PropertyName="color" blue="50" green="3e" red="2c" type="rgb"/>
             </TitledBorder>
@@ -162,7 +162,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Listado de Laboratorios">
+            <TitledBorder title="Listado de Principios Activos">
               <Font PropertyName="font" name="Segoe UI" size="12" style="1"/>
               <Color PropertyName="color" blue="50" green="3e" red="2c" type="rgb"/>
             </TitledBorder>

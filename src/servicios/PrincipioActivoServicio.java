@@ -10,7 +10,7 @@ import repositorios.PrincipioActivoRepositorio;
  */
 public class PrincipioActivoServicio {
     
-    public static List<PrincipioActivo> listarPrincipioActivos(){
+    public static List<PrincipioActivo> listarPrincipioActivos() throws Exception {
        try {
            return PrincipioActivoRepositorio.listarPrincipiosActivos();
        } catch (Exception e) {
@@ -18,7 +18,7 @@ public class PrincipioActivoServicio {
        }
     }
     
-    public static void crearPrincipioActivo(PrincipioActivo pa){
+    public static void crearPrincipioActivo(PrincipioActivo pa) throws Exception {
        try {
            PrincipioActivoRepositorio.crearPrincipioActivo(pa);
        } catch (Exception e) {
@@ -26,7 +26,7 @@ public class PrincipioActivoServicio {
        }
     }
     
-    public static void actualizarPrincipioActivo(PrincipioActivo pa){
+    public static void actualizarPrincipioActivo(PrincipioActivo pa) throws Exception {
        try {
            PrincipioActivoRepositorio.actualizarPrincipioActivo(pa);
        } catch (Exception e) {

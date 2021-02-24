@@ -110,7 +110,7 @@ public class PrincipioActivoView extends javax.swing.JInternalFrame {
         btnSalirPrin = new javax.swing.JButton();
 
         panDataPrin.setBackground(new java.awt.Color(236, 240, 241));
-        panDataPrin.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Laboratorio", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
+        panDataPrin.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Principio Activo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
 
         jLabel1.setText("Nombre:");
 
@@ -174,7 +174,7 @@ public class PrincipioActivoView extends javax.swing.JInternalFrame {
                 .addGap(31, 31, 31))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado de Laboratorios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado de Principios Activos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(44, 62, 80))); // NOI18N
 
         tbPrincipios.setModel(this.principiosModel);
         tbPrincipios.addMouseListener(new java.awt.event.MouseAdapter() {

@@ -11,7 +11,7 @@ import repositorios.MedicamentoRepositorio;
  */
 public class MedicamentoServicio {
     
-    public static List<Medicamento> listarMedicamentos(){
+    public static List<Medicamento> listarMedicamentos() throws Exception {
        try {
            return MedicamentoRepositorio.listarMedicamentos();
        } catch (Exception e) {
@@ -19,7 +19,7 @@ public class MedicamentoServicio {
        }
     }
     
-    public static List<Medicamento> listarMedicamentosSimilares(int id_medicamento){
+    public static List<Medicamento> listarMedicamentosSimilares(int id_medicamento) throws Exception {
        try {
            return MedicamentoRepositorio.buscarMedicamentosSimilares(id_medicamento);
        } catch (Exception e) {
@@ -27,7 +27,7 @@ public class MedicamentoServicio {
        }
     }
     
-    public static void crearMedicamento(Medicamento medicamento){
+    public static void crearMedicamento(Medicamento medicamento) throws Exception {
        try {
            MedicamentoRepositorio.crearMedicamento(medicamento);
        } catch (Exception e) {
@@ -35,7 +35,7 @@ public class MedicamentoServicio {
        }
     }
     
-    public static List<Componente> buscarComponentesPorMedicamento(int id_medicamento){
+    public static List<Componente> buscarComponentesPorMedicamento(int id_medicamento) throws Exception {
         try {
            return ComponenteRepositorio.buscarComponentesPorMedicamento(id_medicamento);
        } catch (Exception e) {
