@@ -18,7 +18,7 @@ public class MySQL {
     private static MySQL instance = null;
     
 
-    private MySQL() {
+    private MySQL() throws Exception {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             this.conn = DriverManager
@@ -27,33 +27,41 @@ public class MySQL {
                                 Entorno.DB_PASS);
             
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e);
+            throw e;
         }
     }
     
-    public static MySQL getInstance() {
-        if(instance == null) instance = new MySQL();
-        return instance;
+    public static MySQL getInstance() throws Exception {
+        try {
+            if(instance == null) instance = new MySQL();
+            return instance;
+        } catch (Exception e) {
+            throw e;
+        }
     }
     
-    public static Connection getConnection() {
-        return getInstance().conn;
+    public static Connection getConnection() throws Exception {
+        try {
+            return getInstance().conn;
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
-    public static ResultSet executeQuery(String query, List<Object> values){
+    public static ResultSet executeQuery(String query, List<Object> values) throws Exception {
         Statement stm;
         ResultSet rs = null;
         try {
             stm = getInstance().conn.createStatement();
             rs = stm.executeQuery(query);
             
-        } catch (SQLException ex) {
-            System.out.println(ex);
+        } catch (Exception e) {
+            throw e;
         }
         return rs;
     }
     
-    public static boolean executeUpdate(String query, List<Object> values){
+    public static boolean executeUpdate(String query, List<Object> values) throws Exception {
         PreparedStatement stm;
         boolean result = false;
         try {
@@ -69,8 +77,8 @@ public class MySQL {
             int row = stm.executeUpdate();
             result = (row == 1);
             
-        } catch (SQLException ex) {
-            System.out.println(ex);
+        } catch (Exception e) {
+            throw e;
         }
         return result;
     }

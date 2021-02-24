@@ -18,7 +18,7 @@ public class LaboratorioRepositorio {
         List<Laboratorio> laboratorios = new ArrayList<>();
         try {
             
-            ResultSet rs = MySQL.executeQuery("SELECT * FROM laboratorio", null);
+            ResultSet rs = MySQL.executeQuery("SELECT id_laboratorio as codigo, nombre, vigencia FROM laboratorio", null);
             while(rs.next()) {
                 Laboratorio laboratorio = new Laboratorio();
                 laboratorio.setCodigo(rs.getInt(1));
