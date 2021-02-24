@@ -17,7 +17,7 @@ public class ComponenteRepositorio {
     public static void crearComponente(Componente com, int medicamento) throws Exception {
         try {
             List<Object> values = Arrays.asList(
-                    com.getPrincipio().getCodigo(),
+                    com.getPrincipioActivo().getCodigo(),
                     medicamento,
                     com.getConcentracion(),
                     com.isVigente()
@@ -39,7 +39,7 @@ public class ComponenteRepositorio {
                 PrincipioActivo  pa = new PrincipioActivo();
                 pa.setCodigo(rs.getInt(1));
                 pa.setNombre(rs.getString(2));
-                componente.setPrincipio(pa);
+                componente.setPrincipioActivo(pa);
                 componente.setConcentracion(rs.getString(3));
                 componente.setVigente(rs.getBoolean(4));
                 

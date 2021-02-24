@@ -1,15 +1,18 @@
 package vista;
 
+import entidades.Componente;
 import entidades.Laboratorio;
 import entidades.Medicamento;
 import entidades.PrincipioActivo;
 import helpers.ColumnItem;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SpinnerNumberModel;
 import servicios.LaboratorioServicio;
 import servicios.MedicamentoServicio;
 import servicios.PrincipioActivoServicio;
@@ -23,10 +26,11 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
     private List<Medicamento> medicamentos;
     private List<Laboratorio> laboratorios;
     private List<PrincipioActivo> principiosActivos;
+    private final List<Componente> componentes = new ArrayList<>();
     private List<ColumnItem> medicamentocolumnItems, componentescolumnItems;
     private DataComboBoxModel laboratorioModel, principioActivoModel;
     private DataTableModel medicamentoModel, componenteModel;
-    private Medicamento medicamento;
+    private SpinnerNumberModel preciomodel;
     
     private static MedicamentoView instance;
     
@@ -59,6 +63,7 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
         initComponenteModel();
         initLaboratorioModel();
         initPrincipioActivoModel();
+        initPrecioModel();
     }
     
     private void initMedicamentoModel(){
@@ -101,6 +106,13 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
         }
     }
     
+    private void initPrecioModel(){
+        Float value = new Float(0.0);
+        Float minimun = new Float(0.0);
+        Float step = new Float(0.1);
+        preciomodel = new SpinnerNumberModel(value, minimun, null, step);
+    }
+    
     private void setPanelEnabled(JPanel panel, Boolean isEnabled) {
         panel.setEnabled(isEnabled);
 
@@ -132,6 +144,8 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
         txtConcentracion.setText("");
         cbVigenciaCom.setSelected(false);
         cbVigenciaMed.setSelected(false);
+        componentes.clear();
+        componenteModel.setValues(null);
     }
 
     /**
@@ -191,7 +205,7 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Precio:");
 
-        spPrecio.setModel(new javax.swing.SpinnerNumberModel(0.0f, 0.0f, null, 1.0f));
+        spPrecio.setModel(this.preciomodel);
 
         jLabel3.setText("Laboratorio:");
 
@@ -208,6 +222,11 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
         cbVigenciaCom.setText("Vigente");
 
         btnAgregarCom.setText("Agregar Componente");
+        btnAgregarCom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarComActionPerformed(evt);
+            }
+        });
 
         tbComponentes.setModel(this.componenteModel);
         tbComponentes.setEnabled(false);
@@ -385,25 +404,33 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarPrinActionPerformed
-        /*String nombre = txtNombrePrin.getText();
-        String descripcion = txtDescripcionPrin.getText();
-        boolean vigencia = (boolean) cbVigenciaMed.isSelected();
-        PrincipioActivo prin = new PrincipioActivo(nombre, descripcion, vigencia);
+        
+        Laboratorio lab = new Laboratorio();
+        lab.setCodigo(laboratorioModel.getkey(cbLaboratorio.getSelectedItem().toString()));
+        
+        Medicamento med = new Medicamento();
+        
+        med.setNombre(txtNombreMed.getText());
+        med.setPrecio(Float.parseFloat(spPrecio.getValue().toString()));
+        med.setVigente((boolean) cbVigenciaMed.isSelected());
+        med.setLaboratorio(lab);
 
-        if (bandera) {
-            PrincipioActivoServicio.crearPrincipioActivo(prin);
-        } else {
-            prin.setCodigo(principioActivo.getCodigo());
-            PrincipioActivoServicio.actualizarPrincipioActivo(prin);
-        }
-        listarPrincipiosActivos();
+        if (componentes.size() > 0) {
+            med.setComponentes(componentes);
+            try {
+                MedicamentoServicio.crearMedicamento(med);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Ocurrio un error al momento de guardar el medicamento.");
+            }
+        } else JOptionPane.showMessageDialog(this, "Un medicamento no puede guardarse sin sus componentes.");
+        listarMedicamentos();
         limpiarDatos();
-        setPanelEnabled(panDataPrin,false);*/
+        setPanelEnabled(panDataMed,false);
     }//GEN-LAST:event_btnAceptarPrinActionPerformed
 
     private void btnCancelarPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarPrinActionPerformed
-        /*setPanelEnabled(panDataPrin,false);
-        limpiarDatos();*/
+        setPanelEnabled(panDataMed,false);
+        limpiarDatos();
     }//GEN-LAST:event_btnCancelarPrinActionPerformed
 
     private void tbMedicamentosseleccionarColumna(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMedicamentosseleccionarColumna
@@ -420,12 +447,44 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalirMedActionPerformed
 
     private void btnNuevoMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoMedActionPerformed
-        /*int key = laboratorioModel.getkey(cbLaboratorio.getSelectedItem().toString());
-        System.out.println(key);
-        bandera = true;*/
         setPanelEnabled(panDataMed,true);
         limpiarDatos();
     }//GEN-LAST:event_btnNuevoMedActionPerformed
+
+    private void btnAgregarComActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarComActionPerformed
+        int codigo = principioActivoModel.getkey(cbPrincipioActivo.getSelectedItem().toString());
+        boolean repetido = false;
+        
+        for (Componente componente : componentes) {
+            if(componente.getPrincipioActivo().getCodigo() == codigo){
+                repetido = true;
+                break;
+            }
+        }
+        
+        if(!repetido){
+            String activo = cbPrincipioActivo.getSelectedItem().toString();
+            String concentracion = txtConcentracion.getText();
+            boolean vigencia = cbVigenciaCom.isSelected();
+            
+            PrincipioActivo prin = new PrincipioActivo();
+            prin.setCodigo(codigo);
+            
+            Componente con = new Componente();
+            con.setCodigo(codigo);
+            con.setPrincipio(activo);
+            con.setPrincipioActivo(prin);
+            con.setConcentracion(concentracion);
+            con.setVigente(vigencia);
+            
+            componentes.add(con);
+            componenteModel.setValues(componentes);
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Principio activo ya registrado.");
+        }
+
+    }//GEN-LAST:event_btnAgregarComActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

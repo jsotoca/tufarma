@@ -1375,8 +1375,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         comboLaboratorios.setSelectedIndex(0);
         comboPrincipio.setSelectedIndex(0);
         txtConcentracion.setText("");
-        cbVigenciaCom.setSelected(false);
-        modelComponentes.setRowCount(0);
+        //cbVigenciaCom.setSelected(false);
+        //modelComponentes.setRowCount(0);
     }
     
     /**
