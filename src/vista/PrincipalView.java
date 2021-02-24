@@ -32,6 +32,8 @@ public class PrincipalView extends javax.swing.JFrame {
         meMedicamentos = new javax.swing.JMenuItem();
         mePrincipios = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        meListadoMedicamento = new javax.swing.JMenuItem();
+        meBusquedaMedicamentosIguales = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,6 +77,18 @@ public class PrincipalView extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Reportes");
+
+        meListadoMedicamento.setText("Listado de medicamentos");
+        meListadoMedicamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                meListadoMedicamentoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(meListadoMedicamento);
+
+        meBusquedaMedicamentosIguales.setText("Búsqueda de medicamentos iguales");
+        jMenu2.add(meBusquedaMedicamentosIguales);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -122,9 +136,20 @@ public class PrincipalView extends javax.swing.JFrame {
             prin.setLocation((panelContenedor.getWidth()-prin.getWidth())/2, (panelContenedor.getHeight()-prin.getHeight())/2);
             prin.show();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "No se puede abrir la ventana de labotatorios");
+            JOptionPane.showMessageDialog(this, "No se puede abrir la ventana de principios activos");
         }
     }//GEN-LAST:event_mePrincipiosActionPerformed
+
+    private void meListadoMedicamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meListadoMedicamentoActionPerformed
+        try {
+            ListadoMedicamentosView lis = ListadoMedicamentosView.getInstance();
+            panelContenedor.add(lis);
+            lis.setLocation((panelContenedor.getWidth()-lis.getWidth())/2, (panelContenedor.getHeight()-lis.getHeight())/2);
+            lis.show();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "No se puede abrir la ventana de listado de medicaments");
+        }
+    }//GEN-LAST:event_meListadoMedicamentoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,7 +190,9 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem meBusquedaMedicamentosIguales;
     private javax.swing.JMenuItem meLaboratorios;
+    private javax.swing.JMenuItem meListadoMedicamento;
     private javax.swing.JMenuItem meMedicamentos;
     private javax.swing.JMenuItem mePrincipios;
     private javax.swing.JPanel panelContenedor;

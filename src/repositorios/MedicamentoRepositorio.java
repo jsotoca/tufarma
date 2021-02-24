@@ -32,6 +32,26 @@ public class MedicamentoRepositorio {
         return medicamentos;
     }
     
+    
+    public static List<Medicamento> listarMedicamentosActivos() throws Exception {
+        List<Medicamento> medicamentos = new ArrayList<>();
+        try {
+            
+            ResultSet rs = MySQL.executeQuery("SELECT * FROM medicamento WHERE vigencia = true", null);
+            while(rs.next()) {
+                Medicamento medicamento = new Medicamento();
+                medicamento.setCodigo(rs.getInt(1));
+                medicamento.setNombre(rs.getString(2));
+                medicamento.setPrecio(rs.getFloat(3));
+                medicamento.setVigente(rs.getBoolean(5));
+                medicamentos.add(medicamento);
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return medicamentos;
+    }
+    
     public static List<Medicamento> buscarMedicamentosSimilares(int id_medicamento) throws Exception {
         List<Medicamento> medicamentos = new ArrayList<>();
         String query = "call buscar_medicamentos_iguales(" + id_medicamento + ")";
