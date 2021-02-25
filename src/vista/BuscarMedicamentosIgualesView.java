@@ -1,4 +1,5 @@
 package vista;
+import entidades.Componente;
 import java.util.List;
 import entidades.Medicamento;
 import helpers.ColumnItem;
@@ -13,9 +14,11 @@ import servicios.MedicamentoServicio;
  */
 public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
 
+    
     private List<Medicamento> medicamentos, medicamentosIguales;
-    private DataTableModel medicamentoModel, medicamentosIgualesModel;
-    private List<ColumnItem> medicamentoColumnItems, medicamentosIgualesColumnItems;
+    private List<Componente> componentes;
+    private DataTableModel medicamentoModel, medicamentosIgualesModel, componenteModel;
+    private List<ColumnItem> medicamentoColumnItems, medicamentosIgualesColumnItems, componentescolumnItems;
     
     private static BuscarMedicamentosIgualesView instance;
     
@@ -36,6 +39,7 @@ public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
     private void initModels(){
         initMedicamentoModel();
         initMedicamentosIgualesModel();
+        initComponenteModel();
     }
     
     private void initMedicamentoModel(){
@@ -60,12 +64,35 @@ public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
         medicamentosIgualesModel = new DataTableModel(medicamentosIgualesColumnItems);
     }
     
+    private void initComponenteModel(){
+        componentescolumnItems = Arrays.asList(
+            new ColumnItem("codigo",String.class),
+            new ColumnItem("principio",String.class),
+            new ColumnItem("concentracion",String.class),
+            new ColumnItem("vigente",Boolean.class)
+        );
+        
+        componenteModel = new DataTableModel(componentescolumnItems);
+    }
+    
     private void listarMedicamentos() {
         try{
             medicamentos = MedicamentoServicio.listarMedicamentos();
             medicamentoModel.setValues(medicamentos);
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this, "No se pudo listar los laboratorios");
+        }
+    }
+    
+    private void listarComponentes(int id_medicamento) {
+        try{
+            componenteModel.setValues(null);
+            componentes = MedicamentoServicio.buscarComponentesPorMedicamento(id_medicamento);
+            
+            if (componentes.size() > 0) componenteModel.setValues(componentes);
+            else JOptionPane.showMessageDialog(this, "No se encontraron componentes del medicamento seleccionado");
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "No se pudo listar los componente");
         }
     }
     
@@ -86,6 +113,9 @@ public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbMedicamentosEncontrados = new javax.swing.JTable();
         btnSalir = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tbComponentes = new javax.swing.JTable();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado de medicamentos"));
 
@@ -103,7 +133,7 @@ public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -124,13 +154,13 @@ public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -141,6 +171,27 @@ public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
             }
         });
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Componentes del medicamento seleccionado"));
+
+        tbComponentes.setModel(this.componenteModel);
+        jScrollPane3.setViewportView(tbComponentes);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -148,8 +199,11 @@ public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnSalir)))
@@ -159,10 +213,12 @@ public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
                 .addComponent(btnSalir)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -172,6 +228,7 @@ public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
 
     private void tbMedicamentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMedicamentosMouseClicked
         int id_medicamento = (int) tbMedicamentos.getValueAt(tbMedicamentos.getSelectedRow(), 0);
+        listarComponentes(id_medicamento);
         listarMedicamentosIguales(id_medicamento);
     }//GEN-LAST:event_tbMedicamentosMouseClicked
 
@@ -184,8 +241,11 @@ public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSalir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable tbComponentes;
     private javax.swing.JTable tbMedicamentos;
     private javax.swing.JTable tbMedicamentosEncontrados;
     // End of variables declaration//GEN-END:variables
