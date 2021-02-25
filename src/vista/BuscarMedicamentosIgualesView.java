@@ -192,6 +192,7 @@ public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
 
     private void listarMedicamentosIguales(int id_medicamento) {
         try{
+            medicamentosIgualesModel.setValues(null);
             medicamentosIguales = MedicamentoServicio.listarMedicamentosSimilares(id_medicamento);
             if(medicamentosIguales.size() > 0) medicamentosIgualesModel.setValues(medicamentosIguales);
             else JOptionPane.showMessageDialog(this, "No se encontraron medicamentos iguales");

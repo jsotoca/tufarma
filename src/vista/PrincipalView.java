@@ -123,6 +123,9 @@ public class PrincipalView extends javax.swing.JFrame {
             limpiarPanelContenedor();
             LaboratorioView lab = LaboratorioView.getInstance();
             panelContenedor.add(lab);
+            lab.setTitle("Gestionar Laboratorios");
+            lab.setMaximizable(true);
+            lab.setClosable(true);
             lab.setLocation((panelContenedor.getWidth()-lab.getWidth())/2, (panelContenedor.getHeight()-lab.getHeight())/2);
             lab.show();
         } catch (Exception ex) {
@@ -135,6 +138,9 @@ public class PrincipalView extends javax.swing.JFrame {
             limpiarPanelContenedor();
             MedicamentoView med = MedicamentoView.getInstance();
             panelContenedor.add(med);
+            med.setTitle("Gestionar Medicamentos");
+            med.setMaximizable(true);
+            med.setClosable(true);
             med.setLocation((panelContenedor.getWidth()-med.getWidth())/2, (panelContenedor.getHeight()-med.getHeight())/2);
             med.show();
         } catch (Exception ex) {
@@ -147,6 +153,9 @@ public class PrincipalView extends javax.swing.JFrame {
             limpiarPanelContenedor();
             PrincipioActivoView prin = PrincipioActivoView.getInstance();
             panelContenedor.add(prin);
+            prin.setTitle("Gestionar Principios Activos");
+            prin.setMaximizable(true);
+            prin.setClosable(true);
             prin.setLocation((panelContenedor.getWidth()-prin.getWidth())/2, (panelContenedor.getHeight()-prin.getHeight())/2);
             prin.show();
         } catch (Exception ex) {
@@ -159,6 +168,9 @@ public class PrincipalView extends javax.swing.JFrame {
             limpiarPanelContenedor();
             ListadoMedicamentosView lis = ListadoMedicamentosView.getInstance();
             panelContenedor.add(lis);
+            lis.setTitle("Listar Medicamentos");
+            lis.setMaximizable(true);
+            lis.setClosable(true);
             lis.setLocation((panelContenedor.getWidth()-lis.getWidth())/2, (panelContenedor.getHeight()-lis.getHeight())/2);
             lis.show();
         } catch (Exception ex) {
@@ -171,6 +183,9 @@ public class PrincipalView extends javax.swing.JFrame {
             limpiarPanelContenedor();
             BuscarMedicamentosIgualesView bus = BuscarMedicamentosIgualesView.getInstance();
             panelContenedor.add(bus);
+            bus.setTitle("Buscar Medicamentos Similares");
+            bus.setMaximizable(true);
+            bus.setClosable(true);
             bus.setLocation((panelContenedor.getWidth()-bus.getWidth())/2, (panelContenedor.getHeight()-bus.getHeight())/2);
             bus.show();
         } catch (Exception ex) {
