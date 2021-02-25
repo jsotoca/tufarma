@@ -73,8 +73,11 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
     
     private void listarComponentes(int id_medicamento) {
         try{
+            componenteModel.setValues(null);
             componentes = MedicamentoServicio.buscarComponentesPorMedicamento(id_medicamento);
-            componenteModel.setValues(componentes);
+            
+            if (componentes.size() > 0) componenteModel.setValues(componentes);
+            else JOptionPane.showMessageDialog(this, "No se encontraron componentes del medicamento seleccionado");
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this, "No se pudo listar los componente");
         }
