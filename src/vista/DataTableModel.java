@@ -1,7 +1,7 @@
 package vista;
 
 import helpers.ColumnItem;
-import java.lang.reflect.Field;
+import helpers.ObjectFields;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -56,21 +56,7 @@ public class DataTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        
-        Object object;
-        object = this.datos.get(rowIndex);
-        
-        Object temp_value;
-        
-        try {
-            Field field = object.getClass().getDeclaredField(columnItems.get(columnIndex).nombre);    
-            field.setAccessible(true);
-            temp_value = field.get(object);
-        } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e) {
-            temp_value = null;
-        }
-        
-        return temp_value;
+        return ObjectFields.getValue(this.datos.get(rowIndex), columnItems.get(columnIndex).nombre);        
     }
 
     
