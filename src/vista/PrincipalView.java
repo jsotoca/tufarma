@@ -15,6 +15,12 @@ public class PrincipalView extends javax.swing.JFrame {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
+    
+    private void limpiarPanelContenedor(){
+        panelContenedor.removeAll();
+        panelContenedor.revalidate();
+        panelContenedor.repaint();
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -114,6 +120,7 @@ public class PrincipalView extends javax.swing.JFrame {
 
     private void meLaboratoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meLaboratoriosActionPerformed
         try {
+            limpiarPanelContenedor();
             LaboratorioView lab = LaboratorioView.getInstance();
             panelContenedor.add(lab);
             lab.setLocation((panelContenedor.getWidth()-lab.getWidth())/2, (panelContenedor.getHeight()-lab.getHeight())/2);
@@ -125,6 +132,7 @@ public class PrincipalView extends javax.swing.JFrame {
 
     private void meMedicamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meMedicamentosActionPerformed
         try {
+            limpiarPanelContenedor();
             MedicamentoView med = MedicamentoView.getInstance();
             panelContenedor.add(med);
             med.setLocation((panelContenedor.getWidth()-med.getWidth())/2, (panelContenedor.getHeight()-med.getHeight())/2);
@@ -136,6 +144,7 @@ public class PrincipalView extends javax.swing.JFrame {
 
     private void mePrincipiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mePrincipiosActionPerformed
         try {
+            limpiarPanelContenedor();
             PrincipioActivoView prin = PrincipioActivoView.getInstance();
             panelContenedor.add(prin);
             prin.setLocation((panelContenedor.getWidth()-prin.getWidth())/2, (panelContenedor.getHeight()-prin.getHeight())/2);
@@ -147,6 +156,7 @@ public class PrincipalView extends javax.swing.JFrame {
 
     private void meListadoMedicamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meListadoMedicamentoActionPerformed
         try {
+            limpiarPanelContenedor();
             ListadoMedicamentosView lis = ListadoMedicamentosView.getInstance();
             panelContenedor.add(lis);
             lis.setLocation((panelContenedor.getWidth()-lis.getWidth())/2, (panelContenedor.getHeight()-lis.getHeight())/2);
@@ -158,6 +168,7 @@ public class PrincipalView extends javax.swing.JFrame {
 
     private void meBusquedaMedicamentosIgualesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meBusquedaMedicamentosIgualesActionPerformed
         try {
+            limpiarPanelContenedor();
             BuscarMedicamentosIgualesView bus = BuscarMedicamentosIgualesView.getInstance();
             panelContenedor.add(bus);
             bus.setLocation((panelContenedor.getWidth()-bus.getWidth())/2, (panelContenedor.getHeight()-bus.getHeight())/2);

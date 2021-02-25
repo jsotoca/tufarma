@@ -40,6 +40,8 @@ public class ComponenteRepositorio {
                 pa.setCodigo(rs.getInt(1));
                 pa.setNombre(rs.getString(2));
                 componente.setPrincipioActivo(pa);
+                componente.setCodigo(rs.getInt(1));
+                componente.setPrincipio(rs.getString(2));
                 componente.setConcentracion(rs.getString(3));
                 componente.setVigente(rs.getBoolean(4));
                 
