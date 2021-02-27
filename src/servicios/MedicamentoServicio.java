@@ -37,7 +37,7 @@ public class MedicamentoServicio {
     
     public static void crearMedicamento(Medicamento medicamento) throws Exception {
        try {
-           MedicamentoRepositorio.crearMedicamento(medicamento);
+           MedicamentoRepositorio.crearMedicamentoCommit(medicamento);
        } catch (Exception e) {
            throw e;
        }

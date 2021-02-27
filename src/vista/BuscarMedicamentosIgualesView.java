@@ -90,7 +90,7 @@ public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
             componentes = MedicamentoServicio.buscarComponentesPorMedicamento(id_medicamento);
             
             if (componentes.size() > 0) componenteModel.setValues(componentes);
-            else JOptionPane.showMessageDialog(this, "No se encontraron componentes del medicamento seleccionado");
+            else JOptionPane.showMessageDialog(this, "No se encontraron componentes del medicamento seleccionado, no se puede buscar medicamentos similares.");
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this, "No se pudo listar los componente");
         }
@@ -227,9 +227,10 @@ public class BuscarMedicamentosIgualesView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tbMedicamentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMedicamentosMouseClicked
+        medicamentosIgualesModel.setValues(null);
         int id_medicamento = (int) tbMedicamentos.getValueAt(tbMedicamentos.getSelectedRow(), 0);
         listarComponentes(id_medicamento);
-        listarMedicamentosIguales(id_medicamento);
+        if (componentes.size() > 0) listarMedicamentosIguales(id_medicamento);
     }//GEN-LAST:event_tbMedicamentosMouseClicked
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
