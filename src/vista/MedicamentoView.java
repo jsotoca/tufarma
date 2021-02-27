@@ -482,6 +482,10 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
             componentes.add(con);
             componenteModel.setValues(componentes);
             
+            cbPrincipioActivo.setSelectedIndex(0);
+            txtConcentracion.setText("");
+            cbVigenciaCom.setSelected(false);
+            
         }else{
             JOptionPane.showMessageDialog(this, "Principio activo ya registrado.");
         }
