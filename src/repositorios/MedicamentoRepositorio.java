@@ -126,7 +126,7 @@ public class MedicamentoRepositorio {
                 if (id_medicamento != 0){
                     String queryComponente = null;
                     int rowAffectedComponente = 0;
-                    
+                    boolean error = false;
                     for (Componente componente : medicamento.getComponentes()) {
                         queryComponente = "INSERT INTO componente(id_principio_activo, id_medicamento, concentracion, vigencia) VALUES(?, ?, ?, ?)";
                         
@@ -139,18 +139,17 @@ public class MedicamentoRepositorio {
                         rowAffectedComponente = pstmComponente.executeUpdate();
                         
                         if (rowAffectedComponente != 1){
-                            con.rollback();
+                            error = true;
                             break;
                         }
                     }
-                    con.commit();
+                    if(error) con.rollback();
+                    else con.commit();
                 }else{
                     con.rollback();
                 }
             }
-            else con.rollback();
-            
-            
+            else con.rollback();                       
         } catch (Exception e) {
             con.rollback();
             System.out.println(e);
