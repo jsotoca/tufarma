@@ -58,7 +58,10 @@ public class MedicamentoRepositorio {
     
     public static List<Medicamento> buscarMedicamentosSimilares(int id_medicamento) throws Exception {
         List<Medicamento> medicamentos = new ArrayList<>();
-        String query = "call buscar_medicamentos_similares(" + id_medicamento + ")";
+        //String query = "call buscar_medicamentos_iguales(" + id_medicamento + ")";
+        //String query = "call buscar_medicamentos_similares(" + id_medicamento + ")";
+        //String query = "call lucas(" + id_medicamento + ")";
+        String query = "call mateo(" + id_medicamento + ")";
         try {
             
             ResultSet rs = MySQL.executeQuery(query, null);

@@ -53,4 +53,19 @@ public class ComponenteRepositorio {
         return componentes;
     }
     
+    public int importarComponentes(int exportado, int importado) throws Exception{
+        int resultado = 0;
+        String query = "call importar_componentes(" + exportado + ", " + importado + ")";        
+        try{
+            ResultSet rs = MySQL.executeQuery(query, null);
+            if( rs.next() == true){
+                resultado = rs.getInt("resultado");
+            }
+            rs.close();
+        }catch(Exception ex){
+            throw  ex;
+        }
+        return resultado;
+    }
+    
 }
