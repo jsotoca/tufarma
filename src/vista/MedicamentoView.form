@@ -217,11 +217,17 @@
                                   <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="btnAgregarCom" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cbVigenciaCom" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cbPrincipioActivo" alignment="0" pref="245" max="32767" attributes="0"/>
-                                  <Component id="txtConcentracion" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="cbVigenciaCom" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cbPrincipioActivo" alignment="0" pref="245" max="32767" attributes="0"/>
+                                      <Component id="txtConcentracion" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="btnAgregarCom" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="btnQuitarCom" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -246,7 +252,10 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="cbVigenciaCom" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnAgregarCom" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnAgregarCom" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnQuitarCom" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="174" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -299,11 +308,18 @@
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="this.componenteModel" type="code"/>
                     </Property>
-                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JButton" name="btnQuitarCom">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Quitar Componente"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnQuitarComActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
@@ -329,6 +345,8 @@
                       <Component id="jScrollPane2" alignment="0" pref="405" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="btnNuevoMed" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -341,7 +359,10 @@
               <Group type="102" alignment="0" attributes="0">
                   <Component id="jScrollPane2" min="-2" pref="354" max="-2" attributes="0"/>
                   <EmptySpace pref="11" max="32767" attributes="0"/>
-                  <Component id="btnNuevoMed" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btnNuevoMed" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -370,6 +391,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNuevoMedActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Importar componentes"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

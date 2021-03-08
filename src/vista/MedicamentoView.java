@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SpinnerNumberModel;
@@ -26,7 +27,7 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
     private List<Medicamento> medicamentos;
     private List<Laboratorio> laboratorios;
     private List<PrincipioActivo> principiosActivos;
-    private final List<Componente> componentes = new ArrayList<>();
+    private List<Componente> componentes = new ArrayList<>();
     private List<ColumnItem> medicamentocolumnItems, componentescolumnItems;
     private DataComboBoxModel laboratorioModel, principioActivoModel;
     private DataTableModel medicamentoModel, componenteModel;
@@ -176,10 +177,12 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
         btnAgregarCom = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbComponentes = new javax.swing.JTable();
+        btnQuitarCom = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbMedicamentos = new javax.swing.JTable();
         btnNuevoMed = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         btnSalirMed = new javax.swing.JButton();
 
         panDataMed.setBackground(new java.awt.Color(236, 240, 241));
@@ -229,8 +232,14 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
         });
 
         tbComponentes.setModel(this.componenteModel);
-        tbComponentes.setEnabled(false);
         jScrollPane1.setViewportView(tbComponentes);
+
+        btnQuitarCom.setText("Quitar Componente");
+        btnQuitarCom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitarComActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -245,11 +254,15 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
                             .addComponent(jLabel7)
                             .addComponent(jLabel8))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnAgregarCom)
-                            .addComponent(cbVigenciaCom)
-                            .addComponent(cbPrincipioActivo, 0, 245, Short.MAX_VALUE)
-                            .addComponent(txtConcentracion))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cbVigenciaCom)
+                                .addComponent(cbPrincipioActivo, 0, 245, Short.MAX_VALUE)
+                                .addComponent(txtConcentracion))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnAgregarCom)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnQuitarCom)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -267,7 +280,9 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbVigenciaCom)
                 .addGap(18, 18, 18)
-                .addComponent(btnAgregarCom)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregarCom)
+                    .addComponent(btnQuitarCom))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -345,6 +360,13 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setText("Importar componentes");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -355,6 +377,8 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnNuevoMed)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -363,7 +387,9 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(btnNuevoMed)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevoMed)
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
 
@@ -492,17 +518,35 @@ public class MedicamentoView extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnAgregarComActionPerformed
 
+    private void btnQuitarComActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarComActionPerformed
+        int fila = tbComponentes.getSelectedRow();
+        if(fila > -1){
+            int codigo = (int) tbComponentes.getValueAt(fila, 0);
+            this.componentes = this.componentes.stream()
+                .filter(com -> com.getCodigo() != codigo)
+                .collect(Collectors.toList());
+            this.componenteModel.setValues(componentes);
+        }
+        
+    }//GEN-LAST:event_btnQuitarComActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptarPrin;
     private javax.swing.JButton btnAgregarCom;
     private javax.swing.JButton btnCancelarPrin;
     private javax.swing.JButton btnNuevoMed;
+    private javax.swing.JButton btnQuitarCom;
     private javax.swing.JButton btnSalirMed;
     private javax.swing.JComboBox<String> cbLaboratorio;
     private javax.swing.JComboBox<String> cbPrincipioActivo;
     private javax.swing.JCheckBox cbVigenciaCom;
     private javax.swing.JCheckBox cbVigenciaMed;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
