@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import repositorios.ComponenteRepositorio;
+import servicios.ComponenteServicio;
 import servicios.MedicamentoServicio;
 /**
  *
@@ -178,8 +179,7 @@ public class ImportarComponentesView extends javax.swing.JFrame {
     private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
         // TODO add your handling code here:
         try{
-            ComponenteRepositorio DAO = new ComponenteRepositorio();
-            int resultado = DAO.importarComponentes(exportado, importado);
+            int resultado = ComponenteServicio.importarComponentes(exportado, importado);
             if(resultado == 1){
                 JOptionPane.showMessageDialog(this, "componentes importados con exito");
             }else {

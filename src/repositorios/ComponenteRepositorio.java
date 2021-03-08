@@ -53,7 +53,18 @@ public class ComponenteRepositorio {
         return componentes;
     }
     
-    public int importarComponentes(int exportado, int importado) throws Exception{
+    public static void eliminar(Componente componente)throws Exception{
+        List<Object> values = Arrays.asList(componente.getPrincipioActivo().getCodigo(), componente.getMedicamento().getCodigo());
+         String query = "DELETE FROM componente WHERE id_principio_activo = ? AND id_medicamento = ?";
+        try {
+            MySQL.executeUpdate(query, values);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            throw ex;
+        }
+    }
+    
+    public static int importarComponentes(int exportado, int importado) throws Exception{
         int resultado = 0;
         String query = "call importar_componentes(" + exportado + ", " + importado + ")";        
         try{
@@ -67,5 +78,6 @@ public class ComponenteRepositorio {
         }
         return resultado;
     }
+    
     
 }

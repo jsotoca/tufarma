@@ -1,12 +1,11 @@
 package vista;
 
 import java.util.List;
-import entidades.Medicamento;
-import entidades.Componente;
+import entidades.*;
 import helpers.ColumnItem;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
-import servicios.MedicamentoServicio;
+import servicios.*;
 
 /**
  *
@@ -18,7 +17,7 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
     private List<Componente> componentes;
     private DataTableModel medicamentoModel, componenteModel;
     private List<ColumnItem> medicamentocolumnItems, componentescolumnItems;
-    
+    Componente actual = null;
     private static ListadoMedicamentosView instance;
     
     /**
@@ -28,6 +27,7 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
         initModels();
         initComponents();
         listarMedicamentos();
+        this.btnQuitar.setEnabled(false);
     }
     
     public static ListadoMedicamentosView getInstance() {
@@ -67,7 +67,7 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
             medicamentos = MedicamentoServicio.listarMedicamentosActivos();
             medicamentoModel.setValues(medicamentos);
         }catch(Exception ex){
-            JOptionPane.showMessageDialog(this, "No se pudo listar los laboratorios");
+            JOptionPane.showMessageDialog(this, "No se pudo listar los medicamentos");
         }
     }
     
@@ -77,7 +77,10 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
             componentes = MedicamentoServicio.buscarComponentesPorMedicamento(id_medicamento);
             
             if (componentes.size() > 0) componenteModel.setValues(componentes);
-            else JOptionPane.showMessageDialog(this, "No se encontraron componentes del medicamento seleccionado");
+            else {
+                this.btnQuitar.setEnabled(false);
+                JOptionPane.showMessageDialog(this, "No se encontraron componentes del medicamento seleccionado");
+            }
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this, "No se pudo listar los componente");
         }
@@ -98,6 +101,7 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbComponentes = new javax.swing.JTable();
+        btnQuitar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado de medicamentos"));
@@ -129,7 +133,19 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Composición del medicamento"));
 
         tbComponentes.setModel(this.componenteModel);
+        tbComponentes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                seleccionarComponente(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbComponentes);
+
+        btnQuitar.setText("Quitar componente seleccionado");
+        btnQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -137,13 +153,19 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnQuitar)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(btnQuitar)
                 .addContainerGap())
         );
 
@@ -174,26 +196,60 @@ public class ListadoMedicamentosView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(btnSalir)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void tbMedicamentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMedicamentosMouseClicked
-        int id_medicamento = (int) tbMedicamentos.getValueAt(tbMedicamentos.getSelectedRow(), 0);
-        listarComponentes(id_medicamento);
+        listarComponentes((int) tbMedicamentos.getValueAt(tbMedicamentos.getSelectedRow(), 0));
     }//GEN-LAST:event_tbMedicamentosMouseClicked
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+        int filaComponente = this.tbComponentes.getSelectedRow();
+        int filaMedicamento = this.tbMedicamentos.getSelectedRow();
+        if( filaMedicamento> -1 && filaComponente > -1){
+            int cod_med = (int) tbMedicamentos.getValueAt(filaMedicamento, 0);
+            int cod_pri = (int) tbComponentes.getValueAt(filaComponente, 0);
+
+            int dialogResult = JOptionPane.showConfirmDialog (this, "¿Estas seguro de eliminar este componente?");
+            if(dialogResult == JOptionPane.YES_OPTION){
+                this.actual = this.componentes.get(filaComponente);
+                Medicamento med = new Medicamento();
+                med.setCodigo(cod_med);
+                PrincipioActivo pri = new  PrincipioActivo();
+                pri.setCodigo(cod_pri);
+                this.actual.setMedicamento(med);
+                this.actual.setPrincipioActivo(pri);
+                try {
+                    ComponenteServicio.eliminarComponente(actual);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "No se pudo eliminar el componente");
+                }
+                this.actual = null;
+                this.listarComponentes(cod_med);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un componente");
+        }
+        this.btnQuitar.setEnabled(false);
+    }//GEN-LAST:event_btnQuitarActionPerformed
+
+    private void seleccionarComponente(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seleccionarComponente
+        this.btnQuitar.setEnabled(true);
+    }//GEN-LAST:event_seleccionarComponente
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnQuitar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
